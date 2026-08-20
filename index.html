@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Specter — SSH, SFTP, and serial terminal | Dawnrail</title>
+<title>Specter: SSH, SFTP, and serial terminal | Dawnrail</title>
 <meta name="description" content="Specter is a cross-platform SSH, SFTP, and serial terminal with real host-key verification, saved sessions, and a built-in file editor, from Dawnrail." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -299,33 +299,6 @@
   @keyframes pulse-dot { 0%,100% { opacity: 0.9; } 50% { opacity: 0.4; } }
   @media (prefers-reduced-motion: reduce) { .product-status .dot { animation: none; } }
 
-  /* ---------- PHILOSOPHY ---------- */
-  .philosophy {
-    padding: 70px 0 90px;
-    border-top: 1px solid var(--border-soft);
-  }
-  .philosophy-inner {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 48px;
-  }
-  .philosophy blockquote {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    font-size: clamp(24px, 2.8vw, 32px);
-    line-height: 1.35;
-    letter-spacing: 0.003em;
-    color: var(--text);
-    max-width: 700px;
-  }
-  .philosophy blockquote span { font-style: italic; color: var(--accent); }
-  .philosophy-attr {
-    margin-top: 22px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-
   /* ---------- FOOTER ---------- */
   footer {
     border-top: 1px solid var(--border-soft);
@@ -356,7 +329,6 @@
     nav a:not(.nav-cta) { display: none; }
     .wrap { padding: 0 20px; }
     .feature-grid { grid-template-columns: 1fr; }
-    .philosophy-inner { grid-template-columns: 1fr; gap: 20px; }
     .switch-wrap { height: 150px; margin-top: 60px; }
     .dl-btn { flex: 1 1 100%; justify-content: center; }
     .footer-inner { flex-direction: column; align-items: flex-start; }
@@ -391,7 +363,7 @@
     <nav>
       <ul>
         <li><a href="#download">Download</a></li>
-        <li><a href="#philosophy">About</a></li>
+        
         <li><a href="https://github.com/angjones3005" class="nav-cta">GitHub</a></li>
       </ul>
     </nav>
@@ -402,7 +374,7 @@
   <div class="wrap">
     <section class="hero">
       <span class="eyebrow">Dawnrail / Specter</span>
-      <h1>SSH, SFTP, and serial. One <em>terminal</em>.</h1>
+      <h1>SSH, SFTP, and serial. A cross-platform <em>terminal</em>.</h1>
       <p class="dek">Real host-key verification, saved sessions, and a built-in file editor, in a terminal that looks and feels the same on Windows, macOS, and Linux.</p>
       <div class="hero-actions">
         <a href="#download" class="btn btn-primary">Download Specter</a>
@@ -410,7 +382,7 @@
       </div>
 
       <!-- Signature: a single rail. Simplified from the fork-into-two
-           version — that shape claims two visible product lines, and
+           version, that shape claims two visible product lines, and
            right now there's one. Same brand mark, honest about what's
            actually live today. -->
       <div class="switch-wrap" aria-hidden="true">
@@ -439,7 +411,7 @@
       <div class="downloads">
         <a class="dl-btn primary" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-windows-installer.exe">
           <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10 4.4V11.5H3V5.5M11 4.2L21 3V11.5H11V4.2M3 12.5H10V19.6L3 18.5V12.5M11 12.5H21V21L11 19.8V12.5Z"/></svg>
-          <span>Windows<small>Installer (.exe) — recommended</small></span>
+          <span>Windows<small>Installer (.exe), recommended</small></span>
         </a>
         <a class="dl-btn" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-macos-universal.zip">
           <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
@@ -457,14 +429,14 @@
             <div class="dot" style="background:#E36A5C"></div>
             <div class="dot" style="background:#7A6644"></div>
             <div class="dot" style="background:#C9A66B"></div>
-            <span>SW-ACCESS-04 — ssh</span>
+            <span>SW-ACCESS-04 · ssh</span>
           </div>
           <div class="body"><span class="dim">$</span> ssh admin@10.0.4.12
 <span class="warn">WARNING: host key for 10.0.4.12 has CHANGED</span>
 <span class="dim">This can mean the server was reconfigured, OR that you're being intercepted.</span>
 <span class="dim">fingerprint: SHA256:k91d…c02f (ed25519)</span>
 <span></span>
-<span class="dim">[ Trust and connect ]  [</span> <span class="warn">I understand the risk — trust anyway</span> <span class="dim">]</span>
+<span class="dim">[ Trust and connect ]  [</span> <span class="warn">I understand the risk, trust anyway</span> <span class="dim">]</span>
 <span></span>
 <span class="prompt">SW-ACCESS-04#</span> <span class="ok">show interfaces status</span><span class="dim">_</span></div>
         </div>
@@ -496,15 +468,6 @@
       </div>
     </section>
 
-    <section class="philosophy" id="philosophy">
-      <div class="philosophy-inner">
-        <div class="section-label">Why</div>
-        <div>
-          <blockquote>Dawnrail is built by a network engineer, for the terminal <span>they actually use during a real SSH session, not a roadmap slide.</span></blockquote>
-          <p class="philosophy-attr">Every feature here exists because a real switch, a real SSH session, or a real 2am incident asked for it.</p>
-        </div>
-      </div>
-    </section>
   </div>
 
   <footer>
@@ -516,7 +479,6 @@
       <div class="footer-links">
         <a href="https://github.com/angjones3005">GitHub</a>
         <a href="https://github.com/Dawnrail/Dawnrail">Specter</a>
-        <a href="#philosophy">About</a>
       </div>
       <div class="footer-copy">© 2026 Dawnrail.</div>
     </div>
