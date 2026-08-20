@@ -153,6 +153,38 @@
   .btn-ghost { border: 1px solid var(--border); color: var(--text-muted); }
   .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); background: var(--bg-alt); }
 
+  .showcase {
+    padding: 18px 0 0;
+  }
+  .showcase-frame {
+    position: relative;
+    max-width: 980px;
+    margin: 0 auto;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #07080b;
+    overflow: hidden;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  }
+  .showcase-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 560px;
+    object-fit: contain;
+    background: #0a0b11;
+  }
+  .showcase-frame.placeholder {
+    min-height: 240px;
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
   /* ---------- RAIL SWITCH SIGNATURE ---------- */
   .switch-wrap {
     margin-top: 90px;
@@ -354,7 +386,9 @@
       <div class="hero-actions">
         <a href="#download" class="btn btn-primary">Download Specter</a>
       </div>
+    </section>
 
+    <section>
       <!-- Signature: a single rail. Simplified from the fork-into-two
            version, that shape claims two visible product lines, and
            right now there's one. Same brand mark, honest about what's
@@ -396,7 +430,12 @@
           <span>Linux<small>x86_64 (.tar.gz)</small></span>
         </a>
       </div>
+    </section>
 
+    <section class="showcase" aria-label="Specter terminal preview">
+      <div class="showcase-frame">
+        <img src="screenshot.png" alt="Specter terminal screenshot" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder'); this.parentElement.textContent='Add screenshot.png';" />
+      </div>
     </section>
 
     <section class="products" id="features">
