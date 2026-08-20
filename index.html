@@ -235,31 +235,6 @@
   .dl-btn .icon { width: 18px; height: 18px; flex: 0 0 auto; }
   .dl-btn small { display: block; font-weight: 400; opacity: 0.75; font-size: 12px; margin-top: 1px; }
 
-  /* ---------- TERMINAL MOCKUP ---------- */
-  .term-wrap { max-width: 720px; margin: 6vh auto 0; }
-  .term {
-    background: #08090A;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6);
-  }
-  .term .bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 14px;
-    background: var(--bg-alt);
-    border-bottom: 1px solid var(--border);
-  }
-  .term .bar .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .term .bar span { margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
-  .term .body { padding: 20px 22px; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; white-space: pre-wrap; }
-  .term .body .warn { color: #E88377; font-weight: 600; }
-  .term .body .ok { color: var(--accent); }
-  .term .body .dim { color: var(--text-dim); }
-  .term .body .prompt { color: var(--accent); }
-
   /* ---------- FEATURES ---------- */
   .products { padding: 90px 0 90px; }
   .feature-grid {
@@ -421,24 +396,6 @@
         </a>
       </div>
 
-      <div class="term-wrap">
-        <div class="term">
-          <div class="bar">
-            <div class="dot" style="background:#E36A5C"></div>
-            <div class="dot" style="background:#7A6644"></div>
-            <div class="dot" style="background:#C9A66B"></div>
-            <span>SW-ACCESS-04 · ssh</span>
-          </div>
-          <div class="body"><span class="dim">$</span> ssh admin@10.0.4.12
-<span class="warn">WARNING: host key for 10.0.4.12 has CHANGED</span>
-<span class="dim">This can mean the server was reconfigured, OR that you're being intercepted.</span>
-<span class="dim">fingerprint: SHA256:k91d…c02f (ed25519)</span>
-<span></span>
-<span class="dim">[ Trust and connect ]  [</span> <span class="warn">I understand the risk, trust anyway</span> <span class="dim">]</span>
-<span></span>
-<span class="prompt">SW-ACCESS-04#</span> <span class="ok">show interfaces status</span><span class="dim">_</span></div>
-        </div>
-      </div>
     </section>
 
     <section class="products" id="features">
