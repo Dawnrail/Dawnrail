@@ -160,113 +160,20 @@
     position: relative;
     max-width: 980px;
     margin: 0 auto;
-    border: 1px solid rgba(201, 166, 107, 0.4);
+    border: 1px solid rgba(201, 166, 107, 0.28);
     border-radius: 8px;
     background: #07080b;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
   }
-  .showcase-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    height: 32px;
-    padding: 0 8px 0 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(13, 14, 18, 0.96);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    color: rgba(241, 241, 239, 0.72);
-  }
-  .window-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
-    flex: 1;
-  }
-  .window-controls {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding-left: 2px;
-    flex-shrink: 0;
-  }
-  .window-controls span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-    opacity: 0.8;
-  }
-  .window-controls .red { background: #ff5f57; }
-  .window-controls .yellow { background: #febc2e; }
-  .window-controls .green { background: #28c840; }
-  .window-tabs {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: nowrap;
-    overflow: hidden;
-    white-space: nowrap;
-    opacity: 0.9;
-  }
-  .window-tabs .tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 3px 7px 4px;
-    border-radius: 4px;
-    color: rgba(241, 241, 239, 0.58);
-    background: transparent;
-    border: 1px solid transparent;
-  }
-  .window-tabs .tab.active {
-    background: rgba(255, 255, 255, 0.02);
-    color: rgba(241, 241, 239, 0.9);
-    border-color: rgba(201, 166, 107, 0.18);
-  }
-  .window-tabs .tab::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 2px;
-    background: rgba(201, 166, 107, 0.7);
-    display: inline-block;
-  }
-  .window-actions {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: rgba(241, 241, 239, 0.72);
-    font-size: 10px;
-    flex-shrink: 0;
-  }
-  .window-actions .glyph {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 12px;
-    height: 12px;
-    border-radius: 3px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.02);
-    line-height: 1;
-  }
-  .showcase-viewport {
-    position: relative;
-    background: #06090d;
-  }
   .showcase-frame img {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     max-height: 560px;
     object-fit: cover;
     background: #0a0b11;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    border-radius: 8px;
   }
   .showcase-frame.placeholder {
     min-height: 240px;
@@ -528,28 +435,7 @@
 
     <section class="showcase" aria-label="Specter terminal preview">
       <div class="showcase-frame">
-        <div class="showcase-topbar">
-          <div class="window-meta">
-            <div class="window-controls" aria-hidden="true">
-              <span class="red"></span>
-              <span class="yellow"></span>
-              <span class="green"></span>
-            </div>
-            <div class="window-tabs">
-              <span class="tab active">Specter</span>
-              <span class="tab">Terminal</span>
-              <span class="tab">Sessions</span>
-            </div>
-          </div>
-          <div class="window-actions" aria-hidden="true">
-            <span class="glyph">—</span>
-            <span class="glyph">□</span>
-            <span class="glyph">×</span>
-          </div>
-        </div>
-        <div class="showcase-viewport">
-          <img src="screenshot.png" alt="Specter terminal screenshot" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder'); this.parentElement.textContent='Add screenshot.png';" />
-        </div>
+        <img src="screenshot.png" alt="Specter terminal screenshot" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder'); this.parentElement.textContent='Add screenshot.png';" />
       </div>
     </section>
 
