@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dawnrail — Infrastructure tools for the people who run the network</title>
-<meta name="description" content="Dawnrail builds infrastructure tools for engineers who work in the terminal every day: Specter, a cross-platform terminal for real network infrastructure, and Skald, typed configuration for network switches." />
+<title>Specter — SSH, SFTP, and serial terminal | Dawnrail</title>
+<meta name="description" content="Specter is a cross-platform SSH, SFTP, and serial terminal with real host-key verification, saved sessions, and a built-in file editor, from Dawnrail." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root {
     --bg: #0A0A0B;
@@ -18,8 +18,8 @@
     --text: #F1F1EF;
     --text-muted: #8B8B8F;
     --text-dim: #55555A;
-    --accent: #D9DADD;
-    --accent-dim: #6E6F74;
+    --accent: #C9A66B;
+    --accent-dim: #7A6644;
     --radius: 4px;
   }
 
@@ -60,18 +60,11 @@
     justify-content: space-between;
   }
   .brand { display: flex; align-items: center; gap: 12px; }
-  .brand-mark {
-    width: 22px; height: 22px;
-    position: relative;
-    flex-shrink: 0;
-  }
-  .brand-mark svg { display: block; width: 100%; height: 100%; }
   .brand-name {
-    font-family: 'Big Shoulders Display', sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: 0.02em;
   }
   .brand-name .dawn { color: var(--accent); }
   nav ul { list-style: none; display: flex; gap: 34px; align-items: center; }
@@ -115,17 +108,18 @@
     background: var(--accent);
   }
   .hero h1 {
-    font-family: 'Big Shoulders Display', sans-serif;
-    font-weight: 800;
-    font-size: clamp(40px, 6.4vw, 78px);
-    line-height: 0.98;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(42px, 6.4vw, 76px);
+    line-height: 1.1;
     letter-spacing: 0.005em;
-    text-transform: uppercase;
-    max-width: 880px;
+    max-width: 780px;
   }
   .hero h1 em {
-    font-style: normal;
+    font-style: italic;
+    font-weight: 500;
     color: var(--accent);
+    text-shadow: 0 0 28px rgba(201, 166, 107, 0.55);
   }
   .hero .dek {
     margin-top: 26px;
@@ -139,16 +133,24 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 22px;
+    padding: 12px 24px;
     border-radius: var(--radius);
     font-size: 14px;
-    font-weight: 600;
-    transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    font-weight: 500;
+    transition: box-shadow .3s ease, border-color .3s ease, background .3s ease;
   }
-  .btn-primary { background: var(--accent); color: #0A0A0B; }
-  .btn-primary:hover { background: #EFEFF0; transform: translateY(-1px); }
-  .btn-ghost { border: 1px solid var(--border); color: var(--text); }
-  .btn-ghost:hover { border-color: var(--accent); background: var(--bg-alt); }
+  .btn-primary {
+    background: transparent;
+    border: 1px solid var(--accent-dim);
+    color: var(--accent);
+  }
+  .btn-primary:hover {
+    border-color: var(--accent);
+    background: rgba(201, 166, 107, 0.07);
+    box-shadow: 0 0 26px rgba(201, 166, 107, 0.22);
+  }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text-muted); }
+  .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); background: var(--bg-alt); }
 
   /* ---------- RAIL SWITCH SIGNATURE ---------- */
   .switch-wrap {
@@ -157,34 +159,24 @@
     height: 190px;
   }
   .switch-wrap svg { display: block; width: 100%; height: 100%; }
-  .rail-line { fill: none; stroke: var(--border); stroke-width: 2; }
-  .rail-tie { stroke: var(--border-soft); stroke-width: 2; }
+  .rail-line { fill: none; stroke: var(--border); stroke-width: 1.5; opacity: 0.8; }
+  .rail-tie { stroke: var(--border-soft); stroke-width: 1; opacity: 0.55; }
   .rail-pulse {
     fill: none;
     stroke: var(--accent);
-    stroke-width: 2.5;
+    stroke-width: 1.5;
     stroke-linecap: round;
-    filter: drop-shadow(0 0 6px rgba(217, 218, 221, 0.55));
-  }
-  .switch-node {
-    fill: var(--bg);
-    stroke: var(--accent);
-    stroke-width: 2;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px rgba(201, 166, 107, 0.5)) drop-shadow(0 0 20px rgba(201, 166, 107, 0.25));
   }
 
   @media (prefers-reduced-motion: no-preference) {
     .rail-pulse-a {
-      stroke-dasharray: 90 900;
+      stroke-dasharray: 70 900;
       stroke-dashoffset: 900;
-      animation: travel-a 2.6s cubic-bezier(.4,0,.2,1) 0.4s forwards;
-    }
-    .rail-pulse-b {
-      stroke-dasharray: 90 900;
-      stroke-dashoffset: 900;
-      animation: travel-b 2.6s cubic-bezier(.4,0,.2,1) 0.4s forwards;
+      animation: travel-a 4.4s ease-in-out 0.5s forwards;
     }
     @keyframes travel-a { to { stroke-dashoffset: -350; } }
-    @keyframes travel-b { to { stroke-dashoffset: -350; } }
   }
   @media (prefers-reduced-motion: reduce) {
     .rail-pulse { opacity: 0; }
@@ -210,46 +202,85 @@
   }
   .section-head { padding: 8px 0 46px; }
   .section-head h2 {
-    font-family: 'Big Shoulders Display', sans-serif;
-    font-weight: 700;
-    font-size: clamp(26px, 3.4vw, 36px);
-    text-transform: uppercase;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(28px, 3.4vw, 38px);
     letter-spacing: 0.005em;
     max-width: 640px;
   }
 
-  /* ---------- PRODUCTS ---------- */
-  .products { padding: 20px 0 90px; }
-  .product-grid {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 24px;
+  /* ---------- DOWNLOAD ---------- */
+  .download { padding: 60px 0 30px; }
+  .downloads {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
   }
-  .product-card {
+  .dl-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid var(--border);
     background: var(--bg-alt);
+    transition: box-shadow .3s ease, border-color .3s ease, background .3s ease;
+  }
+  .dl-btn:hover { border-color: var(--accent-dim); box-shadow: 0 0 20px rgba(201, 166, 107, 0.12); }
+  .dl-btn.primary { background: rgba(201, 166, 107, 0.08); color: var(--accent); border: 1px solid var(--accent-dim); }
+  .dl-btn.primary:hover { border-color: var(--accent); box-shadow: 0 0 26px rgba(201, 166, 107, 0.22); }
+  .dl-btn .icon { width: 18px; height: 18px; flex: 0 0 auto; }
+  .dl-btn small { display: block; font-weight: 400; opacity: 0.75; font-size: 12px; margin-top: 1px; }
+
+  /* ---------- TERMINAL MOCKUP ---------- */
+  .term-wrap { max-width: 720px; margin: 6vh auto 0; }
+  .term {
+    background: #08090A;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6);
+  }
+  .term .bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 14px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .term .bar .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .term .bar span { margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
+  .term .body { padding: 20px 22px; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.7; white-space: pre-wrap; }
+  .term .body .warn { color: #E88377; font-weight: 600; }
+  .term .body .ok { color: var(--accent); }
+  .term .body .dim { color: var(--text-dim); }
+  .term .body .prompt { color: var(--accent); }
+
+  /* ---------- FEATURES ---------- */
+  .products { padding: 90px 0 90px; }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
     overflow: hidden;
   }
-  .product-card.specter { border-color: #2c3548; }
-  .product-card.specter::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent);
+  .feature-card { background: var(--bg-alt); padding: 32px 30px; }
+  .feature-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 25px;
+    letter-spacing: 0.005em;
+    margin-top: 6px;
   }
-  .product-card.skald::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent-dim), transparent);
-  }
+  .feature-card p { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-top: 12px; }
+
   .product-status {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -261,78 +292,12 @@
     align-items: center;
     gap: 6px;
     width: fit-content;
-    margin-bottom: 20px;
   }
-  .product-status.live { background: rgba(217, 218, 221, 0.14); color: var(--accent); }
-  .product-status.dev { background: rgba(217, 218, 221, 0.06); color: var(--accent); }
+  .product-status.live { background: rgba(201, 166, 107, 0.14); color: var(--accent); }
   .product-status .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .product-status.live .dot { animation: pulse-dot 2s infinite; }
-  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .product-status.live .dot { animation: pulse-dot 3.2s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%,100% { opacity: 0.9; } 50% { opacity: 0.4; } }
   @media (prefers-reduced-motion: reduce) { .product-status .dot { animation: none; } }
-
-  .product-card h3 {
-    font-family: 'Big Shoulders Display', sans-serif;
-    font-weight: 700;
-    font-size: 32px;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-  }
-  .product-tagline {
-    color: var(--text-muted);
-    font-size: 15px;
-    margin-top: 8px;
-    max-width: 420px;
-  }
-  .product-desc {
-    color: var(--text-muted);
-    font-size: 14.5px;
-    line-height: 1.7;
-    margin-top: 18px;
-    max-width: 440px;
-  }
-  .product-features {
-    list-style: none;
-    margin-top: 22px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 20px;
-  }
-  .product-features li {
-    font-size: 13px;
-    color: var(--text-muted);
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-  }
-  .product-features li::before {
-    content: '';
-    width: 5px; height: 5px;
-    background: var(--accent);
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .product-card-footer { margin-top: auto; padding-top: 28px; }
-  .product-link {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    color: var(--accent);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .product-link:hover { color: #F1F1EF; }
-  .product-link .arrow { transition: transform .12s ease; }
-  .product-link:hover .arrow { transform: translateX(3px); }
-
-  .product-card.skald { justify-content: flex-start; }
-  .skald-note {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: auto;
-    padding-top: 24px;
-  }
 
   /* ---------- PHILOSOPHY ---------- */
   .philosophy {
@@ -345,15 +310,15 @@
     gap: 48px;
   }
   .philosophy blockquote {
-    font-family: 'Big Shoulders Display', sans-serif;
-    font-weight: 600;
-    font-size: clamp(22px, 2.8vw, 30px);
-    line-height: 1.3;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(24px, 2.8vw, 32px);
+    line-height: 1.35;
     letter-spacing: 0.003em;
     color: var(--text);
     max-width: 700px;
   }
-  .philosophy blockquote span { color: var(--accent); }
+  .philosophy blockquote span { font-style: italic; color: var(--accent); }
   .philosophy-attr {
     margin-top: 22px;
     font-family: 'JetBrains Mono', monospace;
@@ -390,11 +355,29 @@
     nav ul { gap: 18px; }
     nav a:not(.nav-cta) { display: none; }
     .wrap { padding: 0 20px; }
-    .product-grid { grid-template-columns: 1fr; }
+    .feature-grid { grid-template-columns: 1fr; }
     .philosophy-inner { grid-template-columns: 1fr; gap: 20px; }
     .switch-wrap { height: 150px; margin-top: 60px; }
-    .product-features { grid-template-columns: 1fr; }
+    .dl-btn { flex: 1 1 100%; justify-content: center; }
     .footer-inner { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ---------- FALLBACKS ----------
+     Every modern browser (Chrome, Firefox, Safari, Edge, and any of
+     their mobile equivalents) supports flexbox gap and CSS Grid, both
+     used throughout this file, so these blocks are inert there. They
+     only activate in something old enough to predate that support
+     (flexbox gap ~2020-21, CSS Grid ~2017), where they restore the
+     same spacing/layout using margin and inline-block instead. */
+  @supports not (gap: 1px) {
+    nav ul li:not(:last-child) { margin-right: 34px; }
+    .footer-links a:not(:last-child) { margin-right: 22px; }
+    .hero-actions > *:not(:last-child) { margin-right: 14px; }
+    .downloads > *:not(:last-child) { margin-right: 12px; }
+  }
+  @supports not (display: grid) {
+    .feature-grid { display: flex; flex-wrap: wrap; }
+    .feature-card { flex: 1 1 260px; border: 1px solid var(--border); margin: 0 -1px -1px 0; }
   }
 </style>
 </head>
@@ -403,14 +386,11 @@
 <header>
   <div class="nav-inner">
     <a href="/" class="brand">
-      <span class="brand-mark">
-        <svg viewBox="0 0 100 100"><path d="M14,50 L44,50" fill="none" stroke="#D9DADD" stroke-width="8" stroke-linecap="round"/><path d="M44,50 L88,20" fill="none" stroke="#D9DADD" stroke-width="8" stroke-linecap="round"/><path d="M44,50 L88,80" fill="none" stroke="#D9DADD" stroke-width="8" stroke-linecap="round"/><circle cx="44" cy="50" r="10" fill="#0A0A0B" stroke="#D9DADD" stroke-width="8"/><circle cx="44" cy="50" r="4" fill="#D9DADD"/></svg>
-      </span>
       <span class="brand-name"><span class="dawn">Dawn</span>rail</span>
     </a>
     <nav>
       <ul>
-        <li><a href="#products">Products</a></li>
+        <li><a href="#download">Download</a></li>
         <li><a href="#philosophy">About</a></li>
         <li><a href="https://github.com/angjones3005" class="nav-cta">GitHub</a></li>
       </ul>
@@ -421,82 +401,97 @@
 <main>
   <div class="wrap">
     <section class="hero">
-      <span class="eyebrow">Dawnrail Infrastructure</span>
-      <h1>Built for the people who <em>run</em> the network.</h1>
-      <p class="dek">Dawnrail makes tools for engineers who work in the terminal every day — starting with a faster way to reach your gear, and a stricter way to configure it.</p>
+      <span class="eyebrow">Dawnrail / Specter</span>
+      <h1>SSH, SFTP, and serial. One <em>terminal</em>.</h1>
+      <p class="dek">Real host-key verification, saved sessions, and a built-in file editor, in a terminal that looks and feels the same on Windows, macOS, and Linux.</p>
       <div class="hero-actions">
-        <a href="#products" class="btn btn-primary">See the products</a>
-        <a href="https://github.com/angjones3005" class="btn btn-ghost">GitHub ↗</a>
+        <a href="#download" class="btn btn-primary">Download Specter</a>
+        <a href="https://github.com/Dawnrail/Dawnrail" class="btn btn-ghost">GitHub ↗</a>
       </div>
 
-      <!-- Signature: a rail switch. One track splits into two — Dawnrail's
-           two products, the same shape as the thing Skald exists to get
-           right. -->
+      <!-- Signature: a single rail. Simplified from the fork-into-two
+           version — that shape claims two visible product lines, and
+           right now there's one. Same brand mark, honest about what's
+           actually live today. -->
       <div class="switch-wrap" aria-hidden="true">
         <svg viewBox="0 0 1120 190" preserveAspectRatio="none">
-          <!-- ties -->
           <g class="rail-tie">
-            <line x1="20" y1="60" x2="20" y2="80"/><line x1="60" y1="60" x2="60" y2="80"/>
-            <line x1="100" y1="60" x2="100" y2="80"/><line x1="140" y1="60" x2="140" y2="80"/>
-            <line x1="180" y1="60" x2="180" y2="80"/><line x1="220" y1="60" x2="220" y2="80"/>
-            <line x1="260" y1="60" x2="260" y2="80"/><line x1="300" y1="60" x2="300" y2="80"/>
-            <line x1="340" y1="60" x2="340" y2="80"/><line x1="380" y1="60" x2="380" y2="80"/>
-            <line x1="420" y1="60" x2="420" y2="80"/><line x1="460" y1="60" x2="460" y2="80"/>
+            <line x1="20" y1="90" x2="20" y2="110"/><line x1="70" y1="90" x2="70" y2="110"/>
+            <line x1="120" y1="90" x2="120" y2="110"/><line x1="170" y1="90" x2="170" y2="110"/>
+            <line x1="220" y1="90" x2="220" y2="110"/><line x1="270" y1="90" x2="270" y2="110"/>
+            <line x1="320" y1="90" x2="320" y2="110"/><line x1="370" y1="90" x2="370" y2="110"/>
+            <line x1="420" y1="90" x2="420" y2="110"/><line x1="470" y1="90" x2="470" y2="110"/>
+            <line x1="520" y1="90" x2="520" y2="110"/><line x1="570" y1="90" x2="570" y2="110"/>
+            <line x1="620" y1="90" x2="620" y2="110"/><line x1="670" y1="90" x2="670" y2="110"/>
+            <line x1="720" y1="90" x2="720" y2="110"/><line x1="770" y1="90" x2="770" y2="110"/>
+            <line x1="820" y1="90" x2="820" y2="110"/><line x1="870" y1="90" x2="870" y2="110"/>
+            <line x1="920" y1="90" x2="920" y2="110"/><line x1="970" y1="90" x2="970" y2="110"/>
+            <line x1="1020" y1="90" x2="1020" y2="110"/><line x1="1070" y1="90" x2="1070" y2="110"/>
           </g>
-          <!-- main line into the switch -->
-          <path class="rail-line" d="M0,60 L500,60 L560,95" />
-          <path class="rail-line" d="M0,80 L480,80 L560,95" />
-          <!-- branch to Specter (left card) -->
-          <path class="rail-line" d="M560,95 L620,60 L1120,60" />
-          <path class="rail-line" d="M560,95 L640,72 L1120,72" />
-          <!-- branch to Skald (right card) -->
-          <path class="rail-line" d="M560,95 L620,130 L1120,130" />
-          <path class="rail-line" d="M560,95 L640,118 L1120,118" />
-
-          <!-- traveling pulses -->
-          <path class="rail-pulse rail-pulse-a" d="M0,60 L500,60 L560,95 L620,60 L1120,60" />
-          <path class="rail-pulse rail-pulse-b" d="M0,80 L480,80 L560,95 L620,130 L1120,130" />
-
-          <circle class="switch-node" cx="560" cy="95" r="6" />
+          <path class="rail-line" d="M0,90 L1120,90" />
+          <path class="rail-line" d="M0,110 L1120,110" />
+          <path class="rail-pulse rail-pulse-a" d="M0,90 L1120,90" />
         </svg>
       </div>
     </section>
 
-    <section class="products" id="products">
-      <div class="section-head">
-        <div class="section-label">Two tracks</div>
-        <h2>One foundation. Two products, built for different parts of the same job.</h2>
+    <section class="download" id="download">
+      <div class="downloads">
+        <a class="dl-btn primary" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-windows-installer.exe">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10 4.4V11.5H3V5.5M11 4.2L21 3V11.5H11V4.2M3 12.5H10V19.6L3 18.5V12.5M11 12.5H21V21L11 19.8V12.5Z"/></svg>
+          <span>Windows<small>Installer (.exe) — recommended</small></span>
+        </a>
+        <a class="dl-btn" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-macos-universal.zip">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <span>macOS<small>Universal (.zip)</small></span>
+        </a>
+        <a class="dl-btn" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-linux-amd64.tar.gz">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14.62 8.35c-.32 0-.63.07-.9.19-.53-.63-1.34-.99-2.31-.99-1.53 0-2.9.87-3.6 2.2-.31.03-.63.09-.94.18-1.63.48-2.87 1.83-3.14 3.5-.28 1.71.48 3.4 1.94 4.34.13.31.29.6.48.87.87 1.24 2.29 1.98 3.8 1.98h5.66c1.87 0 3.53-1.22 4.09-3.01.42-1.35.13-2.85-.77-3.94.4-.65.6-1.4.55-2.16-.11-1.7-1.51-3.05-3.22-3.13-.16-.01-.32 0-.48.02-.4-.05-.8-.05-1.16.05z"/></svg>
+          <span>Linux<small>x86_64 (.tar.gz)</small></span>
+        </a>
       </div>
 
-      <div class="product-grid">
-        <!-- SPECTER — full detail, this is already public -->
-        <div class="product-card specter">
-          <span class="product-status live"><span class="dot"></span>Available</span>
-          <h3>Specter</h3>
-          <p class="product-tagline">A cross-platform terminal for the infrastructure you actually manage.</p>
-          <p class="product-desc">SSH, SFTP, and serial console in one app. Built for people who live in a terminal all day and are tired of switching between four different tools to reach a switch, a VM, and a local shell.</p>
-          <ul class="product-features">
-            <li>SSH, SFTP &amp; serial in one app</li>
-            <li>Split-pane terminal layouts</li>
-            <li>Built-in remote file editor</li>
-            <li>Legacy device compatibility</li>
-            <li>Saved sessions &amp; folders</li>
-            <li>Windows, macOS &amp; Linux</li>
-          </ul>
-          <div class="product-card-footer">
-            <a href="https://github.com/Dawnrail/Dawnrail" class="product-link">View on GitHub <span class="arrow">→</span></a>
+      <div class="term-wrap">
+        <div class="term">
+          <div class="bar">
+            <div class="dot" style="background:#E36A5C"></div>
+            <div class="dot" style="background:#7A6644"></div>
+            <div class="dot" style="background:#C9A66B"></div>
+            <span>SW-ACCESS-04 — ssh</span>
           </div>
+          <div class="body"><span class="dim">$</span> ssh admin@10.0.4.12
+<span class="warn">WARNING: host key for 10.0.4.12 has CHANGED</span>
+<span class="dim">This can mean the server was reconfigured, OR that you're being intercepted.</span>
+<span class="dim">fingerprint: SHA256:k91d…c02f (ed25519)</span>
+<span></span>
+<span class="dim">[ Trust and connect ]  [</span> <span class="warn">I understand the risk — trust anyway</span> <span class="dim">]</span>
+<span></span>
+<span class="prompt">SW-ACCESS-04#</span> <span class="ok">show interfaces status</span><span class="dim">_</span></div>
         </div>
+      </div>
+    </section>
 
-        <!-- SKALD — deliberately minimal: name, tagline, status only.
-             No feature detail, no mechanism, no link. Gated on IP
-             disclosure review (SKA-23) — edit this copy yourself
-             before it goes anywhere public. -->
-        <div class="product-card skald">
-          <span class="product-status dev"><span class="dot"></span>In development</span>
-          <h3>Skald</h3>
-          <p class="product-tagline">Typed configuration for network switches.</p>
-          <p class="skald-note">Details to come.</p>
+    <section class="products" id="features">
+      <div class="section-head">
+        <div class="section-label">Why Specter</div>
+        <h2>Built for people who live in a terminal all day.</h2>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <span class="product-status live"><span class="dot"></span>Verification</span>
+          <h3>Real host-key checks</h3>
+          <p>Trust-on-first-use verification, with a clear warning and the fingerprint shown whenever a host key changes, so you can decide whether to trust it.</p>
+        </div>
+        <div class="feature-card">
+          <span class="product-status live"><span class="dot"></span>Everywhere</span>
+          <h3>One terminal, everywhere</h3>
+          <p>The same terminal on Windows, macOS, and Linux, with a standard installer for each platform.</p>
+        </div>
+        <div class="feature-card">
+          <span class="product-status live"><span class="dot"></span>Yours</span>
+          <h3>Wallpaper, fonts, color</h3>
+          <p>Color-scheme presets, a curated font list, a wallpaper behind the prompt. The thing you look at for eight hours a day should look like yours.</p>
         </div>
       </div>
     </section>
@@ -505,7 +500,7 @@
       <div class="philosophy-inner">
         <div class="section-label">Why</div>
         <div>
-          <blockquote>Most infrastructure tools are built by people optimizing for a demo. <span>Dawnrail's are built by someone on call for the network they describe.</span></blockquote>
+          <blockquote>Dawnrail is built by a network engineer, for the terminal <span>they actually use during a real SSH session, not a roadmap slide.</span></blockquote>
           <p class="philosophy-attr">Every feature here exists because a real switch, a real SSH session, or a real 2am incident asked for it.</p>
         </div>
       </div>
@@ -516,9 +511,6 @@
     <div class="footer-ties"></div>
     <div class="wrap footer-inner">
       <div class="footer-brand">
-        <span class="brand-mark">
-          <svg viewBox="0 0 100 100"><path d="M14,50 L44,50" fill="none" stroke="#6E6F74" stroke-width="8" stroke-linecap="round"/><path d="M44,50 L88,20" fill="none" stroke="#6E6F74" stroke-width="8" stroke-linecap="round"/><path d="M44,50 L88,80" fill="none" stroke="#6E6F74" stroke-width="8" stroke-linecap="round"/><circle cx="44" cy="50" r="10" fill="#0A0A0B" stroke="#6E6F74" stroke-width="8"/><circle cx="44" cy="50" r="4" fill="#6E6F74"/></svg>
-        </span>
         <span class="brand-name"><span class="dawn">Dawn</span>rail</span>
       </div>
       <div class="footer-links">

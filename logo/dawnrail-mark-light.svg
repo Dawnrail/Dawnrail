@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Same mark, inverted for use on light/print backgrounds. -->
-  <path d="M14,50 L44,50" fill="none" stroke="#0A0A0B" stroke-width="6" stroke-linecap="round"/>
-  <path d="M44,50 L88,20" fill="none" stroke="#0A0A0B" stroke-width="6" stroke-linecap="round"/>
-  <path d="M44,50 L88,80" fill="none" stroke="#0A0A0B" stroke-width="6" stroke-linecap="round"/>
-  <circle cx="44" cy="50" r="8" fill="#FFFFFF" stroke="#0A0A0B" stroke-width="6"/>
-  <circle cx="44" cy="50" r="3" fill="#0A0A0B"/>
-</svg>
