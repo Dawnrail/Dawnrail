@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dawnrail — Infrastructure tools for the people who run the network</title>
+<meta name="description" content="Dawnrail builds infrastructure tools for engineers who work in the terminal every day: Specter, a cross-platform terminal for real network infrastructure, and Skald, typed configuration for network switches." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --bg-alt: #141416;
+    --bg-alt-2: #18181B;
+    --border: #262629;
+    --border-soft: #1B1B1E;
+    --text: #F1F1EF;
+    --text-muted: #8B8B8F;
+    --text-dim: #55555A;
+    --accent: #D9DADD;
+    --accent-dim: #6E6F74;
+    --radius: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+
+  ::selection { background: var(--accent); color: #0A0A0B; }
+
+  /* ---------- NAV ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 11, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .nav-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 22px; height: 22px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .brand-mark svg { display: block; width: 100%; height: 100%; }
+  .brand-name {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .brand-name .dawn { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 34px; align-items: center; }
+  nav a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color .15s ease;
+  }
+  nav a:hover, nav a:focus-visible { color: var(--text); }
+  .nav-cta {
+    border: 1px solid var(--border);
+    padding: 7px 16px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text) !important;
+  }
+  .nav-cta:hover { border-color: var(--accent); background: var(--bg-alt); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 100px 0 0;
+    position: relative;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    font-size: clamp(40px, 6.4vw, 78px);
+    line-height: 0.98;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    max-width: 880px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero .dek {
+    margin-top: 26px;
+    color: var(--text-muted);
+    font-size: 17px;
+    line-height: 1.7;
+    max-width: 560px;
+  }
+  .hero-actions { display: flex; gap: 14px; margin-top: 36px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform .12s ease, background .12s ease, border-color .12s ease;
+  }
+  .btn-primary { background: var(--accent); color: #0A0A0B; }
+  .btn-primary:hover { background: #EFEFF0; transform: translateY(-1px); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--accent); background: var(--bg-alt); }
+
+  /* ---------- RAIL SWITCH SIGNATURE ---------- */
+  .switch-wrap {
+    margin-top: 90px;
+    position: relative;
+    height: 190px;
+  }
+  .switch-wrap svg { display: block; width: 100%; height: 100%; }
+  .rail-line { fill: none; stroke: var(--border); stroke-width: 2; }
+  .rail-tie { stroke: var(--border-soft); stroke-width: 2; }
+  .rail-pulse {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px rgba(217, 218, 221, 0.55));
+  }
+  .switch-node {
+    fill: var(--bg);
+    stroke: var(--accent);
+    stroke-width: 2;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rail-pulse-a {
+      stroke-dasharray: 90 900;
+      stroke-dashoffset: 900;
+      animation: travel-a 2.6s cubic-bezier(.4,0,.2,1) 0.4s forwards;
+    }
+    .rail-pulse-b {
+      stroke-dasharray: 90 900;
+      stroke-dashoffset: 900;
+      animation: travel-b 2.6s cubic-bezier(.4,0,.2,1) 0.4s forwards;
+    }
+    @keyframes travel-a { to { stroke-dashoffset: -350; } }
+    @keyframes travel-b { to { stroke-dashoffset: -350; } }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rail-pulse { opacity: 0; }
+  }
+
+  /* ---------- SECTION LABEL ---------- */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-soft);
+  }
+  .section-head { padding: 8px 0 46px; }
+  .section-head h2 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 700;
+    font-size: clamp(26px, 3.4vw, 36px);
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    max-width: 640px;
+  }
+
+  /* ---------- PRODUCTS ---------- */
+  .products { padding: 20px 0 90px; }
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
+  }
+  .product-card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-card.specter { border-color: #2c3548; }
+  .product-card.specter::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .product-card.skald::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-dim), transparent);
+  }
+  .product-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    margin-bottom: 20px;
+  }
+  .product-status.live { background: rgba(217, 218, 221, 0.14); color: var(--accent); }
+  .product-status.dev { background: rgba(217, 218, 221, 0.06); color: var(--accent); }
+  .product-status .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .product-status.live .dot { animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @media (prefers-reduced-motion: reduce) { .product-status .dot { animation: none; } }
+
+  .product-card h3 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .product-tagline {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-top: 8px;
+    max-width: 420px;
+  }
+  .product-desc {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin-top: 18px;
+    max-width: 440px;
+  }
+  .product-features {
+    list-style: none;
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+  }
+  .product-features li {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .product-features li::before {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .product-card-footer { margin-top: auto; padding-top: 28px; }
+  .product-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .product-link:hover { color: #F1F1EF; }
+  .product-link .arrow { transition: transform .12s ease; }
+  .product-link:hover .arrow { transform: translateX(3px); }
+
+  .product-card.skald { justify-content: flex-start; }
+  .skald-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: auto;
+    padding-top: 24px;
+  }
+
+  /* ---------- PHILOSOPHY ---------- */
+  .philosophy {
+    padding: 70px 0 90px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .philosophy-inner {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+  }
+  .philosophy blockquote {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 600;
+    font-size: clamp(22px, 2.8vw, 30px);
+    line-height: 1.3;
+    letter-spacing: 0.003em;
+    color: var(--text);
+    max-width: 700px;
+  }
+  .philosophy blockquote span { color: var(--accent); }
+  .philosophy-attr {
+    margin-top: 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--border-soft);
+    padding: 0;
+  }
+  .footer-ties {
+    height: 14px;
+    background-image: repeating-linear-gradient(90deg, var(--border-soft) 0, var(--border-soft) 2px, transparent 2px, transparent 22px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .footer-inner {
+    padding: 44px 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-brand { display: flex; align-items: center; gap: 10px; }
+  .footer-brand .brand-name { font-size: 16px; }
+  .footer-copy { color: var(--text-dim); font-size: 12.5px; }
+  .footer-links { display: flex; gap: 22px; font-size: 13px; color: var(--text-muted); }
+  .footer-links a:hover { color: var(--text); }
+
+  @media (max-width: 760px) {
+    .nav-inner { padding: 14px 20px; }
+    nav ul { gap: 18px; }
+    nav a:not(.nav-cta) { display: none; }
+    .wrap { padding: 0 20px; }
+    .product-grid { grid-template-columns: 1fr; }
+    .philosophy-inner { grid-template-columns: 1fr; gap: 20px; }
+    .switch-wrap { height: 150px; margin-top: 60px; }
+    .product-features { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 100 100"><path d="M14,50 L44,50" fill="none" stroke="#D9DADD" stroke-width="8" stroke-linecap="round"/><path d="M44,50 L88,20" fill="none" stroke="#D9DADD" stroke-width="8" stroke-linecap="round"/><path d="M44,50 L88,80" fill="none" stroke="#D9DADD" stroke-width="8" stroke-linecap="round"/><circle cx="44" cy="50" r="10" fill="#0A0A0B" stroke="#D9DADD" stroke-width="8"/><circle cx="44" cy="50" r="4" fill="#D9DADD"/></svg>
+      </span>
+      <span class="brand-name"><span class="dawn">Dawn</span>rail</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#philosophy">About</a></li>
+        <li><a href="https://github.com/angjones3005" class="nav-cta">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero">
+      <span class="eyebrow">Dawnrail Infrastructure</span>
+      <h1>Built for the people who <em>run</em> the network.</h1>
+      <p class="dek">Dawnrail makes tools for engineers who work in the terminal every day — starting with a faster way to reach your gear, and a stricter way to configure it.</p>
+      <div class="hero-actions">
+        <a href="#products" class="btn btn-primary">See the products</a>
+        <a href="https://github.com/angjones3005" class="btn btn-ghost">GitHub ↗</a>
+      </div>
+
+      <!-- Signature: a rail switch. One track splits into two — Dawnrail's
+           two products, the same shape as the thing Skald exists to get
+           right. -->
+      <div class="switch-wrap" aria-hidden="true">
+        <svg viewBox="0 0 1120 190" preserveAspectRatio="none">
+          <!-- ties -->
+          <g class="rail-tie">
+            <line x1="20" y1="60" x2="20" y2="80"/><line x1="60" y1="60" x2="60" y2="80"/>
+            <line x1="100" y1="60" x2="100" y2="80"/><line x1="140" y1="60" x2="140" y2="80"/>
+            <line x1="180" y1="60" x2="180" y2="80"/><line x1="220" y1="60" x2="220" y2="80"/>
+            <line x1="260" y1="60" x2="260" y2="80"/><line x1="300" y1="60" x2="300" y2="80"/>
+            <line x1="340" y1="60" x2="340" y2="80"/><line x1="380" y1="60" x2="380" y2="80"/>
+            <line x1="420" y1="60" x2="420" y2="80"/><line x1="460" y1="60" x2="460" y2="80"/>
+          </g>
+          <!-- main line into the switch -->
+          <path class="rail-line" d="M0,60 L500,60 L560,95" />
+          <path class="rail-line" d="M0,80 L480,80 L560,95" />
+          <!-- branch to Specter (left card) -->
+          <path class="rail-line" d="M560,95 L620,60 L1120,60" />
+          <path class="rail-line" d="M560,95 L640,72 L1120,72" />
+          <!-- branch to Skald (right card) -->
+          <path class="rail-line" d="M560,95 L620,130 L1120,130" />
+          <path class="rail-line" d="M560,95 L640,118 L1120,118" />
+
+          <!-- traveling pulses -->
+          <path class="rail-pulse rail-pulse-a" d="M0,60 L500,60 L560,95 L620,60 L1120,60" />
+          <path class="rail-pulse rail-pulse-b" d="M0,80 L480,80 L560,95 L620,130 L1120,130" />
+
+          <circle class="switch-node" cx="560" cy="95" r="6" />
+        </svg>
+      </div>
+    </section>
+
+    <section class="products" id="products">
+      <div class="section-head">
+        <div class="section-label">Two tracks</div>
+        <h2>One foundation. Two products, built for different parts of the same job.</h2>
+      </div>
+
+      <div class="product-grid">
+        <!-- SPECTER — full detail, this is already public -->
+        <div class="product-card specter">
+          <span class="product-status live"><span class="dot"></span>Available</span>
+          <h3>Specter</h3>
+          <p class="product-tagline">A cross-platform terminal for the infrastructure you actually manage.</p>
+          <p class="product-desc">SSH, SFTP, and serial console in one app. Built for people who live in a terminal all day and are tired of switching between four different tools to reach a switch, a VM, and a local shell.</p>
+          <ul class="product-features">
+            <li>SSH, SFTP &amp; serial in one app</li>
+            <li>Split-pane terminal layouts</li>
+            <li>Built-in remote file editor</li>
+            <li>Legacy device compatibility</li>
+            <li>Saved sessions &amp; folders</li>
+            <li>Windows, macOS &amp; Linux</li>
+          </ul>
+          <div class="product-card-footer">
+            <a href="https://github.com/Dawnrail/Dawnrail" class="product-link">View on GitHub <span class="arrow">→</span></a>
+          </div>
+        </div>
+
+        <!-- SKALD — deliberately minimal: name, tagline, status only.
+             No feature detail, no mechanism, no link. Gated on IP
+             disclosure review (SKA-23) — edit this copy yourself
+             before it goes anywhere public. -->
+        <div class="product-card skald">
+          <span class="product-status dev"><span class="dot"></span>In development</span>
+          <h3>Skald</h3>
+          <p class="product-tagline">Typed configuration for network switches.</p>
+          <p class="skald-note">Details to come.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="philosophy" id="philosophy">
+      <div class="philosophy-inner">
+        <div class="section-label">Why</div>
+        <div>
+          <blockquote>Most infrastructure tools are built by people optimizing for a demo. <span>Dawnrail's are built by someone on call for the network they describe.</span></blockquote>
+          <p class="philosophy-attr">Every feature here exists because a real switch, a real SSH session, or a real 2am incident asked for it.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-ties"></div>
+    <div class="wrap footer-inner">
+      <div class="footer-brand">
+        <span class="brand-mark">
+          <svg viewBox="0 0 100 100"><path d="M14,50 L44,50" fill="none" stroke="#6E6F74" stroke-width="8" stroke-linecap="round"/><path d="M44,50 L88,20" fill="none" stroke="#6E6F74" stroke-width="8" stroke-linecap="round"/><path d="M44,50 L88,80" fill="none" stroke="#6E6F74" stroke-width="8" stroke-linecap="round"/><circle cx="44" cy="50" r="10" fill="#0A0A0B" stroke="#6E6F74" stroke-width="8"/><circle cx="44" cy="50" r="4" fill="#6E6F74"/></svg>
+        </span>
+        <span class="brand-name"><span class="dawn">Dawn</span>rail</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/angjones3005">GitHub</a>
+        <a href="https://github.com/Dawnrail/Dawnrail">Specter</a>
+        <a href="#philosophy">About</a>
+      </div>
+      <div class="footer-copy">© 2026 Dawnrail.</div>
+    </div>
+  </footer>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Dawnrail — Logo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --bg-alt: #141416;
+    --border: #262629;
+    --text: #F1F1EF;
+    --text-muted: #8B8B8F;
+    --accent: #D9DADD;
+    --accent-dim: #6E6F74;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 60px 40px 100px;
+  }
+  h1 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 60px;
+  }
+  .block { max-width: 900px; margin: 0 auto 80px; }
+  .label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .row { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+  .swatch {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .swatch.light { background: #FFFFFF; }
+  .swatch img { display: block; }
+
+  /* icon mark, large */
+  .mark-lg { width: 220px; height: 220px; padding: 40px; }
+  .mark-lg img { width: 100%; height: 100%; }
+
+  /* favicon simulation */
+  .fav-row { display: flex; align-items: flex-end; gap: 28px; }
+  .fav-item { text-align: center; }
+  .fav-item .swatch { padding: 6px; margin-bottom: 8px; }
+  .fav-cap { font-size: 10px; color: var(--text-muted); }
+  .fav-32 { width: 32px; height: 32px; }
+  .fav-32 img { width: 20px; height: 20px; }
+  .fav-16 { width: 16px; height: 16px; }
+  .fav-16 img { width: 11px; height: 11px; }
+  .browser-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #26262A;
+    border: 1px solid var(--border);
+    border-radius: 6px 6px 0 0;
+    padding: 7px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #B8B8BC;
+  }
+  .browser-tab img { width: 13px; height: 13px; }
+
+  /* lockup */
+  .lockup { display: inline-flex; align-items: center; gap: 16px; }
+  .lockup img { width: 44px; height: 44px; }
+  .lockup .wordmark {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .lockup .wordmark .dawn { color: var(--accent); }
+  .lockup .wordmark .rail { color: var(--text); }
+
+  .lockup.small img { width: 28px; height: 28px; }
+  .lockup.small .wordmark { font-size: 22px; }
+
+  .wordmark-only {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    font-size: 56px;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .wordmark-only .dawn { color: var(--accent); }
+  .wordmark-only .rail { color: var(--text); }
+
+  .note {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Dawnrail — Logo Reference</h1>
+
+<div class="block">
+  <div class="label">Icon mark</div>
+  <div class="row">
+    <div class="swatch mark-lg"><img src="dawnrail-mark.svg" alt="" /></div>
+    <div class="swatch light mark-lg"><img src="dawnrail-mark-light.svg" alt="" /></div>
+  </div>
+  <p class="note">One line splits into two — a rail switch, and the shape of the company: one foundation, two products. The lit node at the fork is the "dawn": the light catching right where the path divides.</p>
+</div>
+
+<div class="block">
+  <div class="label">Favicon / small sizes (bolder weight, tuned for legibility below ~32px)</div>
+  <div class="fav-row">
+    <div class="fav-item">
+      <div class="browser-tab"><img src="dawnrail-favicon.svg" alt="" /> dawnrail.dev</div>
+      <div class="fav-cap">browser tab</div>
+    </div>
+    <div class="fav-item">
+      <div class="swatch fav-32"><img src="dawnrail-favicon.svg" alt="" /></div>
+      <div class="fav-cap">32px</div>
+    </div>
+    <div class="fav-item">
+      <div class="swatch fav-16"><img src="dawnrail-favicon.svg" alt="" /></div>
+      <div class="fav-cap">16px</div>
+    </div>
+  </div>
+</div>
+
+<div class="block">
+  <div class="label">Lockup (header size)</div>
+  <div class="lockup">
+    <img src="dawnrail-mark.svg" alt="" />
+    <span class="wordmark"><span class="dawn">Dawn</span><span class="rail">rail</span></span>
+  </div>
+</div>
+
+<div class="block">
+  <div class="label">Lockup (nav / compact size)</div>
+  <div class="lockup small">
+    <img src="dawnrail-mark.svg" alt="" />
+    <span class="wordmark"><span class="dawn">Dawn</span><span class="rail">rail</span></span>
+  </div>
+</div>
+
+<div class="block">
+  <div class="label">Wordmark only (icon not always needed)</div>
+  <div class="wordmark-only"><span class="dawn">Dawn</span><span class="rail">rail</span></div>
+  <p class="note">"Dawn" carries the accent color, "rail" stays neutral — a quiet nod to the two-part name without spelling it out.</p>
+</div>
+
+</body>
+</html>

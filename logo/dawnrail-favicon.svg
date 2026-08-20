@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Favicon/app-icon weight: thicker strokes, a solid node instead of
+       a stroked ring, tuned to still read at 16-32px where the fine
+       version's ring and thinner lines would disappear. -->
+  <path d="M12,50 L42,50" fill="none" stroke="#D9DADD" stroke-width="11" stroke-linecap="round"/>
+  <path d="M42,50 L90,16" fill="none" stroke="#D9DADD" stroke-width="11" stroke-linecap="round"/>
+  <path d="M42,50 L90,84" fill="none" stroke="#D9DADD" stroke-width="11" stroke-linecap="round"/>
+  <circle cx="42" cy="50" r="9" fill="#D9DADD"/>
+</svg>
