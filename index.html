@@ -88,8 +88,23 @@
 
   /* ---------- HERO ---------- */
   .hero {
-    padding: 100px 0 0;
+    padding: 72px 0 0;
     position: relative;
+    text-align: center;
+  }
+  .product-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 7vw, 78px);
+    line-height: 1;
+    font-weight: 400;
+  }
+  .product-intro em { color: var(--accent); font-style: italic; }
+  .product-subtitle {
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
   }
   .eyebrow {
     font-family: 'JetBrains Mono', monospace;
@@ -421,6 +436,11 @@
 
 <main>
   <div class="wrap">
+    <section class="hero">
+      <h1 class="product-intro"><em>Specter</em></h1>
+      <p class="product-subtitle">An SSH client, terminal, and text editor.</p>
+    </section>
+
     <section>
       <!-- Signature: a single rail. Simplified from the fork-into-two
            version, that shape claims two visible product lines, and
@@ -474,227 +494,175 @@
     <section class="products" id="features">
       <div class="section-head">
         <div class="section-label">Why Specter</div>
-        <h2>A serious workspace for terminals, remote files, and the systems around them.</h2>
+        <h2>Feature-complete terminal workflows, not just a tabbed SSH window.</h2>
       </div>
 
-      <p class="feature-intro">Specter brings sessions, shells, serial consoles, remote files, and a full text editor into one focused workspace. It is built for the moments between connecting, inspecting, changing, and reconnecting.</p>
+      <p class="feature-intro">Specter focuses on real daily operator workflows: fast session control, secure connectivity, reliable remote file handling, and a terminal surface tuned for long workdays.</p>
 
       <div class="feature-pills" aria-label="Key feature summary">
+        <span class="feature-pill">Permanent Home Tab</span>
         <span class="feature-pill">Split Panes</span>
         <span class="feature-pill">SSH Agent Support</span>
-        <span class="feature-pill">Quick Connect</span>
-        <span class="feature-pill">Split Panes</span>
-        <span class="feature-pill">SSH Agent Support</span>
-        <span class="feature-pill">Serial + Mosh + Telnet</span>
-        <span class="feature-pill">SFTP Editor</span>
-        <span class="feature-pill">Most Programming Languages</span>
+        <span class="feature-pill">Mosh + Telnet</span>
+        <span class="feature-pill">X11 Forwarding</span>
+        <span class="feature-pill">Session Import</span>
         <span class="feature-pill">Encrypted Bundles</span>
         <span class="feature-pill">Continuous Logging</span>
+      </div>
+
       <div class="feature-grid">
         <div class="feature-card">
           <span class="product-status live"><span class="dot"></span>Workspaces</span>
           <h3>Terminal workspaces</h3>
-          <span class="product-status live"><span class="dot"></span>Home</span>
-          <h3>Start with context</h3>
-          <p>Home is a working surface, not an empty landing state.</p>
+          <p>Keep context alive while moving quickly between sessions.</p>
+          <ul class="feature-list">
+            <li>
+              <h4>Permanent Home tab</h4>
+              <p>A dedicated Home tab stays available as a clean launch point and keeps the app open even after all live sessions close.</p>
+            </li>
+            <li>
               <h4>Draggable tabs</h4>
               <p>Reorder sessions instantly by dragging tabs left or right while the Home tab stays pinned and protected.</p>
-              <h4>Pinned and recent sessions</h4>
-              <p>See pinned sessions, recently opened sessions with their age, and every saved session grouped by folder.</p>
+            </li>
+            <li>
               <h4>Split terminal layouts</h4>
               <p>Run single, split, or four-pane layouts, with each pane hosting SSH, local shell, serial, Telnet, or other session types.</p>
-              <h4>Quick connect</h4>
-              <p>Search by name, host, or tag, or type a <code>user@host</code> address directly. Arrow keys and Enter keep the flow keyboard-first.</p>
+            </li>
+            <li>
               <h4>Editable keyboard shortcuts</h4>
               <p>Open the shortcut reference from the View menu and remap bindings that persist between launches.</p>
-              <h4>Local shell profiles</h4>
-              <p>Save named shells with their own starting directories and launch them from Home, the sidebar, or the Terminal menu.</p>
-        </div>
-        <div class="feature-card">
-          <span class="product-status live"><span class="dot"></span>Connectivity</span>
-          <h3>Remote connectivity</h3>
-          <span class="product-status live"><span class="dot"></span>Workspaces</span>
-          <h3>Shape the workspace</h3>
-          <p>Keep the right sessions in front of you while the work changes around them.</p>
-              <h4>SSH agent support</h4>
-              <p>Use Windows OpenSSH agent, PuTTY Pageant, Unix/macOS SSH_AUTH_SOCK, or Specter's memory-only signer cache.</p>
-              <h4>Draggable tabs and split panes</h4>
-              <p>Reorder tabs while Home stays permanent, then use single, vertical, horizontal, or four-pane layouts.</p>
-              <h4>Mosh launcher</h4>
-              <p>Start Mosh from the Terminal menu and keep tabs, logging, highlighting, and disconnect handling consistent.</p>
-              <h4>Independent panes</h4>
-              <p>Each pane can host SSH, a local shell, serial, Telnet, Mosh, or an editor. Drag headers to swap panes and dividers to resize them.</p>
-              <h4>Telnet launcher</h4>
-              <p>Launch Telnet from the Terminal menu or New Session picker with the same terminal surface and lifecycle controls.</p>
-              <h4>Shortcuts that stay yours</h4>
-              <p>Review and replace bindings from View. Custom shortcuts persist between launches and can be restored with Reset Settings.</p>
-              <h4>X11 forwarding</h4>
+            </li>
           </ul>
         </div>
         <div class="feature-card">
           <span class="product-status live"><span class="dot"></span>Connectivity</span>
-          <h3>Reach mixed infrastructure</h3>
-          <p>One terminal surface for the protocols operators actually inherit.</p>
+          <h3>Remote connectivity</h3>
+          <p>Secure protocol coverage for mixed infrastructure environments.</p>
           <ul class="feature-list">
+            <li>
+              <h4>SSH agent support</h4>
+              <p>Use Windows OpenSSH agent, PuTTY Pageant, Unix/macOS SSH_AUTH_SOCK, or Specter's memory-only signer cache.</p>
+            </li>
+            <li>
+              <h4>Mosh launcher</h4>
+              <p>Start Mosh from the Terminal menu and keep tabs, logging, highlighting, and disconnect handling consistent.</p>
+            </li>
+            <li>
+              <h4>Telnet launcher</h4>
+              <p>Launch Telnet from the Terminal menu or New Session picker with the same terminal surface and lifecycle controls.</p>
+            </li>
+            <li>
+              <h4>X11 forwarding</h4>
               <p>Opt into X11 forwarding per SSH session with local display proxy support for Linux, XQuartz, VcXsrv, or Xming.</p>
-              <h4>SSH, Mosh, Telnet, and serial</h4>
-              <p>Launch SSH, Mosh, Telnet, and serial sessions from the same picker with shared tabs, resizing, logging, highlighting, and lifecycle handling.</p>
+            </li>
+            <li>
               <h4>Local SSH port forwarding</h4>
               <p>Forward local 127.0.0.1 ports through active SSH sessions to hosts reachable from the remote server.</p>
-              <h4>Agents and forwarding</h4>
-              <p>Use OpenSSH agent, Pageant, <code>SSH_AUTH_SOCK</code>, or Specter's memory-only signer cache. Add local port forwarding and optional X11 forwarding per SSH session.</p>
+            </li>
+          </ul>
         </div>
         <div class="feature-card">
-              <h4>Recover without losing your pane</h4>
-              <p>Dropped sessions stay visible with reconnect, save-scrollback, and close actions. Optional keepalive helps protect idle SSH sessions.</p>
+          <span class="product-status live"><span class="dot"></span>Session Control</span>
+          <h3>Session management</h3>
           <p>Bring existing environments over and keep daily operations reproducible.</p>
           <ul class="feature-list">
             <li>
-              <h4>Session import</h4>
-          <span class="product-status live"><span class="dot"></span>Session Control</span>
-          <h3>Make sessions repeatable</h3>
-          <p>Bring existing environments over and keep daily operations reproducible.</p>
+              <h4>Session file import</h4>
+              <p>Import common INI-style .mxtsessions and .ini files with host, user, port, and key mapping, while skipping passwords.</p>
+            </li>
+            <li>
               <h4>Session tags</h4>
               <p>Add comma-separated tags to saved sessions; Specter trims and de-duplicates tags for Quick Connect search.</p>
-              <h4>Session file import</h4>
-              <p>Import common INI-style session files with host, user, port, and key mapping while skipping passwords.</p>
+            </li>
+            <li>
               <h4>Persistent command snippets</h4>
               <p>Store frequent commands or config blocks and insert them into focused terminals through paste safety guards.</p>
             </li>
             <li>
               <h4>Encrypted configuration bundles</h4>
               <p>Export and import passphrase-protected bundles using PBKDF2-SHA256 and AES-256-GCM for BYO cloud storage.</p>
-              <h4>Folders, pins, and profiles</h4>
-              <p>Pin sessions and working folders, browse live sessions in the sidebar, and open Windows folders in Specter from Explorer.</p>
+            </li>
+            <li>
               <h4>Continuous session logging</h4>
               <p>Append raw SSH, local shell, and serial output to per-session log files once a log directory is configured.</p>
-              <h4>Snippets, logs, and backups</h4>
-              <p>Keep command snippets, opt into continuous per-session logging, and restore periodic local backups of configuration and profiles.</p>
+            </li>
+            <li>
               <h4>Automatic configuration backups</h4>
+              <p>Create periodic local backups and restore settings, sessions, groups, and local shell profiles when needed.</p>
+            </li>
+          </ul>
+        </div>
         <div class="feature-card">
           <span class="product-status live"><span class="dot"></span>Files + UX</span>
           <h3>Remote files and terminal experience</h3>
-          <span class="product-status live"><span class="dot"></span>Text Editor</span>
-          <h3>Edit beside the shell</h3>
-          <p>The editor is a session in the pane grid, so changing a file stays close to the system it belongs to.</p>
+          <p>Editing and reading remote systems should feel dependable and responsive.</p>
+          <ul class="feature-list">
+            <li>
               <h4>Open remote files with system default apps</h4>
               <p>Open remote PDFs, images, and other files locally via secure temporary copies with preserved timestamps.</p>
-              <h4>Workspace tree and document tabs</h4>
-              <p>Open folders inside an editor pane, create files and folders without overwriting existing names, and keep several documents open at once.</p>
+            </li>
+            <li>
               <h4>Monaco editor workers</h4>
               <p>TypeScript, JavaScript, JSON, CSS, SCSS, Less, HTML, and core editor workers run off the main UI thread.</p>
-              <h4>Local and remote editing</h4>
-              <p>Open and save local files or write a buffer back to any connected host over SFTP. Reload From Disk when another process changes a file.</p>
+            </li>
+            <li>
               <h4>SFTP timestamp preservation</h4>
               <p>Remote downloads preserve modification times, and drag-and-drop uploads carry local mtime when supported.</p>
-              <h4>Commands built for the pane</h4>
-              <p>Use Command Palette, Go to File, Find and Replace, Go to Line, formatting, folding, symbol navigation, and persistent editor toggles.</p>
+            </li>
+            <li>
               <h4>Cross-platform highlighting</h4>
               <p>Consistent highlighting across shells and devices, with safe ANSI handling and split-token resilience.</p>
-              <h4>Clear save state</h4>
-              <p>Unsaved changes show on the document, pane, and tab. Closing modified buffers asks first, and each pane answers the save shortcut independently.</p>
+            </li>
+            <li>
               <h4>Compact control styling and pane resizing</h4>
+              <p>Unified dark controls with stable focus states plus reliable sidebar and editor divider resizing behavior.</p>
+            </li>
+          </ul>
+        </div>
         <div class="feature-card">
           <span class="product-status live"><span class="dot"></span>Security</span>
           <h3>Security-first defaults</h3>
-          <span class="product-status live"><span class="dot"></span>Languages</span>
-          <h3>Read the configuration</h3>
-          <p>Syntax support reaches from everyday web files to the languages found in real infrastructure.</p>
-              <h4>Real host-key verification</h4>
-              <p>Trust-on-first-use checks with clear host-key-change warnings and fingerprint visibility.</p>
-              <h4>Monaco language services</h4>
-              <p>TypeScript, JavaScript, JSON, CSS, SCSS, Less, and HTML services run in dedicated workers for a responsive editor.</p>
-              <h4>No private key persistence</h4>
-              <p>Private keys and passphrases are never stored inside session profiles.</p>
-              <h4>Functional languages</h4>
-              <p>Haskell, PureScript, Idris, Elm, OCaml, Standard ML, Erlang, Nix, Lisp, Agda, and Lean share Monaco's language registry.</p>
-              <h4>No known_hosts in cloud bundles</h4>
-              <p>Encrypted configuration bundles intentionally exclude known_hosts and passwords.</p>
-              <h4>Broad language coverage</h4>
-              <p>Work comfortably across most programming and configuration languages, with syntax-aware editing for web, scripting, systems, data, and infrastructure files.</p>
-        </div>
-        <div class="feature-card">
-          <span class="product-status live"><span class="dot"></span>Roadmap</span>
-          <h3>Current scope notes</h3>
-          <span class="product-status live"><span class="dot"></span>Terminal</span>
-          <h3>A terminal that stays readable</h3>
-          <p>Long workdays need controls and output that remain legible under pressure.</p>
-              <h4>VNC and RDP</h4>
-              <p>Not yet integrated; both require dedicated graphical client surfaces.</p>
-              <h4>Operator-aware highlighting</h4>
-              <p>Highlight outcomes, interfaces, addresses, log tags, URLs, paths, timestamps, and numbers without recolouring text the remote host already styled.</p>
-              <h4>Automatic provider browsing and background sync</h4>
-              <p>Not yet integrated; encrypted BYO-storage bundles are available today.</p>
-              <h4>Themes, fonts, and wallpaper</h4>
-              <p>Choose from eight color schemes, eleven monospace fonts, adjustable zoom, and an optional wallpaper with tunable opacity.</p>
-              <h4>Macro recording and plugin architecture</h4>
-              <p>Still planned as future productivity features.</p>
-              <h4>Paste and output control</h4>
-              <p>Copy on select, right-click paste, multiline warnings, optional OSC 52 clipboard access, and saveable on-screen output.</p>
-              <h4>Dynamic SOCKS and remote SSH forwarding</h4>
-              <p>Planned as future tunnel manager work.</p>
-              <h4>Consistent controls and dialogs</h4>
-              <p>Compact inputs and themed dialogs share predictable focus states, Escape dismissal, and pane resizing across light and dark themes.</p>
-        </div>
-      </div>
-    </section>
-        <div class="feature-card">
-          <span class="product-status live"><span class="dot"></span>Security</span>
-          <h3>Trust the connection</h3>
           <p>Reduce credential and trust-surface risk by design.</p>
           <ul class="feature-list">
             <li>
               <h4>Real host-key verification</h4>
-              <p>Trust-on-first-use checks show fingerprints clearly and warn when a known host key changes.</p>
+              <p>Trust-on-first-use checks with clear host-key-change warnings and fingerprint visibility.</p>
             </li>
             <li>
-              <h4>Nothing sensitive in profiles</h4>
-              <p>Private keys and passphrases are never stored in session profiles, and encrypted bundles exclude passwords and <code>known_hosts</code>.</p>
+              <h4>No private key persistence</h4>
+              <p>Private keys and passphrases are never stored inside session profiles.</p>
             </li>
             <li>
-              <h4>Encrypted BYO-storage bundles</h4>
-              <p>Export configuration with PBKDF2-SHA256 and AES-256-GCM for OneDrive, Dropbox, S3, or another user-managed provider.</p>
+              <h4>No known_hosts in cloud bundles</h4>
+              <p>Encrypted configuration bundles intentionally exclude known_hosts and passwords.</p>
             </li>
           </ul>
         </div>
         <div class="feature-card">
-          <span class="product-status live"><span class="dot"></span>Remote Files</span>
-          <h3>Move files with care</h3>
-          <p>SFTP workflows that respect the files and timestamps you are working with.</p>
+          <span class="product-status live"><span class="dot"></span>Roadmap</span>
+          <h3>Current scope notes</h3>
+          <p>What is intentionally not integrated yet.</p>
           <ul class="feature-list">
             <li>
-              <h4>Open with system apps</h4>
-              <p>Open remote PDFs, images, and other files through private temporary copies and the operating system's default handler.</p>
+              <h4>VNC and RDP</h4>
+              <p>Not yet integrated; both require dedicated graphical client surfaces.</p>
             </li>
             <li>
-              <h4>Preserve timestamps</h4>
-              <p>Remote downloads preserve modification times, and drag-and-drop uploads carry local modification time when supported.</p>
+              <h4>Automatic provider browsing and background sync</h4>
+              <p>Not yet integrated; encrypted BYO-storage bundles are available today.</p>
             </li>
             <li>
-              <h4>Sidebar and editor alignment</h4>
-              <p>Pin local folders in the sidebar, open them directly into an editor workspace, and resize editor and terminal panes independently.</p>
+              <h4>Macro recording and plugin architecture</h4>
+              <p>Still planned as future productivity features.</p>
+            </li>
+            <li>
+              <h4>Dynamic SOCKS and remote SSH forwarding</h4>
+              <p>Planned as future tunnel manager work.</p>
             </li>
           </ul>
         </div>
-        <div class="feature-card">
-          <span class="product-status live"><span class="dot"></span>Scope</span>
-          <h3>Focused by design</h3>
-          <p>Some surfaces are deliberately outside the current product boundary.</p>
-          <ul class="feature-list">
-            <li>
-              <h4>Not integrated yet</h4>
-              <p>VNC and RDP require dedicated graphical client surfaces. Automatic cloud-provider browsing and background sync are not included.</p>
-            </li>
-            <li>
-              <h4>Future productivity work</h4>
-              <p>Full macro recording, replay, and a plugin architecture remain future features.</p>
-            </li>
-            <li>
-              <h4>Future tunnel work</h4>
-              <p>Dynamic SOCKS forwarding and remote SSH forwarding remain planned for a future tunnel manager.</p>
-            </li>
-          </ul>
-        </div>
+      </div>
+    </section>
 
   </div>
 
