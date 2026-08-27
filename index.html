@@ -98,7 +98,11 @@
     line-height: 1;
     font-weight: 400;
   }
-  .product-intro em { color: var(--accent); font-style: italic; }
+  .product-intro em {
+    color: var(--text);
+    font-style: italic;
+    text-shadow: 0 0 14px rgba(241, 241, 239, 0.28), 0 0 34px rgba(241, 241, 239, 0.12);
+  }
   .product-subtitle {
     margin-top: 16px;
     color: var(--text-muted);
@@ -439,33 +443,6 @@
     <section class="hero">
       <h1 class="product-intro"><em>Specter</em></h1>
       <p class="product-subtitle">An SSH client, terminal, and text editor.</p>
-    </section>
-
-    <section>
-      <!-- Signature: a single rail. Simplified from the fork-into-two
-           version, that shape claims two visible product lines, and
-           right now there's one. Same brand mark, honest about what's
-           actually live today. -->
-      <div class="switch-wrap" aria-hidden="true">
-        <svg viewBox="0 0 1120 190" preserveAspectRatio="none">
-          <g class="rail-tie">
-            <line x1="20" y1="90" x2="20" y2="110"/><line x1="70" y1="90" x2="70" y2="110"/>
-            <line x1="120" y1="90" x2="120" y2="110"/><line x1="170" y1="90" x2="170" y2="110"/>
-            <line x1="220" y1="90" x2="220" y2="110"/><line x1="270" y1="90" x2="270" y2="110"/>
-            <line x1="320" y1="90" x2="320" y2="110"/><line x1="370" y1="90" x2="370" y2="110"/>
-            <line x1="420" y1="90" x2="420" y2="110"/><line x1="470" y1="90" x2="470" y2="110"/>
-            <line x1="520" y1="90" x2="520" y2="110"/><line x1="570" y1="90" x2="570" y2="110"/>
-            <line x1="620" y1="90" x2="620" y2="110"/><line x1="670" y1="90" x2="670" y2="110"/>
-            <line x1="720" y1="90" x2="720" y2="110"/><line x1="770" y1="90" x2="770" y2="110"/>
-            <line x1="820" y1="90" x2="820" y2="110"/><line x1="870" y1="90" x2="870" y2="110"/>
-            <line x1="920" y1="90" x2="920" y2="110"/><line x1="970" y1="90" x2="970" y2="110"/>
-            <line x1="1020" y1="90" x2="1020" y2="110"/><line x1="1070" y1="90" x2="1070" y2="110"/>
-          </g>
-          <path class="rail-line" d="M0,90 L1120,90" />
-          <path class="rail-line" d="M0,110 L1120,110" />
-          <path class="rail-pulse rail-pulse-a" d="M0,90 L1120,90" />
-        </svg>
-      </div>
     </section>
 
     <section class="download" id="download">
