@@ -1,657 +1,498 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Specter: SSH, SFTP, and serial terminal | Dawnrail</title>
-<meta name="description" content="Specter is a cross-platform SSH, SFTP, and serial terminal with real host-key verification, saved sessions, and a built-in file editor, from Dawnrail." />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230A0A0B'/%3E%3Cpath d='M21 12v40h12c9 0 16-7 16-20S42 12 33 12H21zm8 8h4c6 0 10 5 10 12s-4 12-10 12h-4V20z' fill='%23C9A66B'/%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>specter - a terminal, reimagined</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0A0A0B;
-    --bg-alt: #141416;
-    --bg-alt-2: #18181B;
-    --border: #262629;
-    --border-soft: #1B1B1E;
-    --text: #F1F1EF;
-    --text-muted: #8B8B8F;
-    --text-dim: #55555A;
-    --accent: #C9A66B;
-    --accent-dim: #7A6644;
-    --radius: 4px;
+  :root{
+    --bg-1:#0a0912;
+    --bg-2:#050409;
+    --glass:rgba(255,255,255,0.055);
+    --glass-strong:rgba(255,255,255,0.09);
+    --glass-border:rgba(255,255,255,0.14);
+    --text:#e9e6f5;
+    --text-dim:#9089ab;
+    --text-faint:#5b5473;
+    --accent:#b9a6ff;
+    --accent-dim:#7c6bb0;
+    --accent-glow:rgba(185,166,255,0.35);
+    --mono:'JetBrains Mono', monospace;
+    --sans:'Space Grotesk', sans-serif;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0; padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, var(--accent-glow) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(90,70,150,0.15) 0%, transparent 60%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    color:var(--text);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background 0.6s ease;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--accent); color:#0a0912;}
+
+  /* ---------------- nav ---------------- */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    max-width:960px;
+    margin:0 auto;
+    padding:28px 24px 0;
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.5px;
+    color:var(--text-dim);
+  }
+  .topbar .mark{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--text);
+    font-weight:500;
+  }
+  .mark .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 8px 2px var(--accent-glow);
+  }
+  .topbar nav{display:flex; gap:22px;}
+  .topbar nav a{text-decoration:none; opacity:0.8;}
+  .topbar nav a:hover{opacity:1; color:var(--accent);}
+
+  /* ---------------- hero ---------------- */
+  .hero{
+    max-width:960px;
+    margin:0 auto;
+    padding:52px 24px 36px;
+    text-align:center;
+  }
+  .hero h1{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:clamp(28px, 5vw, 46px);
+    line-height:1.25;
+    margin:0 0 14px;
+    letter-spacing:-0.5px;
+  }
+  .hero h1 .glow{color:var(--accent); text-shadow:0 0 24px var(--accent-glow);}
+  .hero p.sub{
+    font-size:17px;
+    color:var(--text-dim);
+    max-width:520px;
+    margin:0 auto 40px;
+    line-height:1.5;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ---------------- terminal ---------------- */
+  .term-wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 20px 60px;
+  }
+  .term-caption{
+    text-align:center;
+    font-size:15px;
+    color:var(--text-dim);
+    margin:0 0 22px;
+  }
+  .term{
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    border-radius:var(--radius);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:0 40px 80px -30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
+    overflow:hidden;
+    text-align:left;
+  }
+  .term-bar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 14px;
+    background:var(--glass-strong);
+    border-bottom:1px solid var(--glass-border);
+  }
+  .term-dot{width:10px; height:10px; border-radius:50%; opacity:0.7;}
+  .term-dot.r{background:#ff6159;}
+  .term-dot.y{background:#ffbd2e;}
+  .term-dot.g{background:#28c840;}
+  .term-title{
+    flex:1;
+    text-align:center;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-faint);
+    letter-spacing:0.5px;
+    margin-right:44px;
+  }
+  .term-body{
+    padding:18px 18px 14px;
+    font-family:var(--mono);
+    font-size:14.5px;
+    line-height:1.65;
+    height:340px;
+    overflow-y:auto;
+    cursor:text;
+  }
+  .term-body::-webkit-scrollbar{width:8px;}
+  .term-body::-webkit-scrollbar-thumb{background:var(--glass-border); border-radius:4px;}
 
-  html { scroll-behavior: smooth; }
+  .line{white-space:pre-wrap; word-break:break-word;}
+  .line.out{color:var(--text-dim);}
+  .line.err{color:#ff8b8b;}
+  .line.ghost{color:var(--accent);}
+  .line.cmdline{color:var(--text);}
+  .prompt-sym{color:var(--accent); margin-right:8px;}
+  .prompt-user{color:var(--text-faint);}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-
-  a { color: inherit; text-decoration: none; }
-
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
-
-  ::selection { background: var(--accent); color: #0A0A0B; }
-
-  /* ---------- NAV ---------- */
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(10, 10, 11, 0.88);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .nav-inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 18px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .brand { display: flex; align-items: center; gap: 12px; }
-  .brand-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: 26px;
-    letter-spacing: 0.02em;
-  }
-  .brand-name .dawn { color: var(--accent); }
-  nav ul { list-style: none; display: flex; gap: 34px; align-items: center; }
-  nav a {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-muted);
-    transition: color .15s ease;
-  }
-  nav a:hover, nav a:focus-visible { color: var(--text); }
-  .nav-cta {
-    border: 1px solid var(--border);
-    padding: 7px 16px;
-    border-radius: var(--radius);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text) !important;
-  }
-  .nav-cta:hover { border-color: var(--accent); background: var(--bg-alt); }
-
-  /* ---------- HERO ---------- */
-  .hero {
-    padding: 28px 0 0;
-    position: relative;
-    text-align: center;
-  }
-  .product-intro {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(48px, 7vw, 78px);
-    line-height: 1;
-    font-weight: 400;
-  }
-  .product-intro em {
-    color: var(--text);
-    font-style: italic;
-    text-shadow: 0 0 14px rgba(241, 241, 239, 0.28), 0 0 34px rgba(241, 241, 239, 0.12);
-  }
-  .product-subtitle {
-    margin-top: 16px;
-    color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-  .eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 22px;
-  }
-  .eyebrow::before {
-    content: '';
-    width: 20px;
-    height: 1px;
-    background: var(--accent);
-  }
-  .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    font-size: clamp(42px, 6.4vw, 76px);
-    line-height: 1.1;
-    letter-spacing: 0.005em;
-    max-width: 780px;
-  }
-  .hero h1 em {
-    font-style: italic;
-    font-weight: 500;
-    color: var(--accent);
-    text-shadow: 0 0 28px rgba(201, 166, 107, 0.55);
-  }
-  .hero .dek {
-    margin-top: 26px;
-    color: var(--text-muted);
-    font-size: 17px;
-    line-height: 1.7;
-    max-width: 560px;
-  }
-  .hero-actions { display: flex; gap: 14px; margin-top: 36px; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-weight: 500;
-    transition: box-shadow .3s ease, border-color .3s ease, background .3s ease;
-  }
-  .btn-primary {
-    background: transparent;
-    border: 1px solid var(--accent-dim);
-    color: var(--accent);
-  }
-  .btn-primary:hover {
-    border-color: var(--accent);
-    background: rgba(201, 166, 107, 0.07);
-    box-shadow: 0 0 26px rgba(201, 166, 107, 0.22);
-  }
-  .btn-ghost { border: 1px solid var(--border); color: var(--text-muted); }
-  .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); background: var(--bg-alt); }
-
-  .showcase {
-    padding: 18px 0 0;
-  }
-  .showcase-frame {
-    position: relative;
-    max-width: 980px;
-    margin: 0 auto;
-    border: 1px solid rgba(201, 166, 107, 0.28);
-    border-radius: 8px;
-    background: #07080b;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-  }
-  .showcase-frame img {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 560px;
-    object-fit: cover;
-    background: #0a0b11;
-    border-radius: 8px;
-  }
-  .showcase-frame.placeholder {
-    min-height: 240px;
-    display: grid;
-    place-items: center;
-    color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .input-row{display:flex; align-items:center;}
+  .input-row .prompt-sym{flex:none;}
+  #termInput{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:var(--text);
+    font-family:var(--mono);
+    font-size:14.5px;
+    caret-color:var(--accent);
   }
 
-  /* ---------- RAIL SWITCH SIGNATURE ---------- */
-  .switch-wrap {
-    margin-top: 24px;
-    position: relative;
-    height: 120px;
+  .hint-row{
+    padding:9px 18px 14px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+    border-top:1px solid var(--glass-border);
   }
-  .switch-wrap svg { display: block; width: 100%; height: 100%; }
-  .rail-line { fill: none; stroke: var(--border); stroke-width: 1.5; opacity: 0.8; }
-  .rail-tie { stroke: var(--border-soft); stroke-width: 1; opacity: 0.55; }
-  .rail-pulse {
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    opacity: 0.8;
-    filter: drop-shadow(0 0 8px rgba(201, 166, 107, 0.5)) drop-shadow(0 0 20px rgba(201, 166, 107, 0.25));
+  .hint-row b{color:var(--text-dim); font-weight:500;}
+
+  @keyframes pulseGlow{
+    0%,100%{opacity:0.35;}
+    50%{opacity:0.6;}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .mark .dot{animation:pulseGlow 2.4s ease-in-out infinite;}
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .rail-pulse-a {
-      stroke-dasharray: 70 900;
-      stroke-dashoffset: 900;
-      animation: travel-a 4.4s ease-in-out 0.5s forwards;
-    }
-    @keyframes travel-a { to { stroke-dashoffset: -350; } }
+  /* ---------------- install ---------------- */
+  .section{
+    max-width:720px;
+    margin:0 auto;
+    padding:60px 24px;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .rail-pulse { opacity: 0; }
+  .section-label{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent-dim);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:10px;
   }
-
-  /* ---------- SECTION LABEL ---------- */
-  .section-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border-soft);
-  }
-  .section-head { padding: 8px 0 46px; }
-  .section-head h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
-    font-size: clamp(28px, 3.4vw, 38px);
-    letter-spacing: 0.005em;
-    max-width: 640px;
+  .section h2{
+    font-family:var(--mono);
+    font-size:24px;
+    margin:0 0 26px;
   }
 
-  /* ---------- DOWNLOAD ---------- */
-  .download {
-    padding: 24px 0 30px;
-    scroll-margin-top: 110px;
+  .os-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:14px;
   }
-  .downloads {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
+  .os-tab{
+    font-family:var(--mono);
+    font-size:12.5px;
+    padding:7px 14px;
+    border-radius:6px;
+    border:1px solid var(--glass-border);
+    background:transparent;
+    color:var(--text-dim);
+    cursor:pointer;
+    text-decoration:none;
   }
-  .dl-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 13px 22px;
-    border-radius: var(--radius);
-    font-size: 15px;
-    font-weight: 500;
-    border: 1px solid var(--border);
-    background: var(--bg-alt);
-    transition: box-shadow .3s ease, border-color .3s ease, background .3s ease;
+  .os-tab:hover, .os-tab:focus-visible{
+    background:var(--glass-strong);
+    color:var(--accent);
+    border-color:var(--accent-dim);
   }
-  .dl-btn:hover { border-color: var(--accent-dim); box-shadow: 0 0 20px rgba(201, 166, 107, 0.12); }
-  .dl-btn.primary { background: rgba(201, 166, 107, 0.08); color: var(--accent); border: 1px solid var(--accent-dim); }
-  .dl-btn.primary:hover { border-color: var(--accent); box-shadow: 0 0 26px rgba(201, 166, 107, 0.22); }
-  .dl-btn .icon { width: 18px; height: 18px; flex: 0 0 auto; }
-  .dl-btn small { display: block; font-weight: 400; opacity: 0.75; font-size: 12px; margin-top: 1px; }
-
-  /* ---------- FEATURES ---------- */
-  .products { padding: 90px 0 90px; }
-  .feature-intro {
-    color: var(--text-muted);
-    font-size: 16px;
-    max-width: 760px;
-    margin-bottom: 24px;
-  }
-  .feature-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 28px;
-  }
-  .feature-pill {
-    border: 1px solid var(--border);
-    background: var(--bg-alt);
-    color: var(--text-muted);
-    padding: 7px 11px;
-    border-radius: var(--radius);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .feature-card { background: var(--bg-alt); padding: 32px 30px; }
-  .feature-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: 28px;
-    letter-spacing: 0.005em;
-    margin-top: 6px;
-  }
-  .feature-card > p { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-top: 10px; }
-  .feature-list {
-    list-style: none;
-    margin-top: 18px;
-    display: grid;
-    gap: 14px;
-  }
-  .feature-list h4 {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.35;
-  }
-  .feature-list p {
-    color: var(--text-muted);
-    font-size: 13px;
-    line-height: 1.65;
-    margin-top: 4px;
+  .install-note{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+    margin:0;
   }
 
-  .product-status {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 9px;
-    border-radius: 2px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    width: fit-content;
+  /* ---------------- flags / features ---------------- */
+  .flags{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    border-top:1px solid var(--glass-border);
   }
-  .product-status.live { background: rgba(201, 166, 107, 0.14); color: var(--accent); }
-  .product-status .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .product-status.live .dot { animation: pulse-dot 3.2s ease-in-out infinite; }
-  @keyframes pulse-dot { 0%,100% { opacity: 0.9; } 50% { opacity: 0.4; } }
-  @media (prefers-reduced-motion: reduce) { .product-status .dot { animation: none; } }
+  .flag-row{
+    display:grid;
+    grid-template-columns:140px 1fr;
+    gap:16px;
+    padding:16px 0;
+    border-bottom:1px solid var(--glass-border);
+  }
+  .flag-code{
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--accent);
+    white-space:nowrap;
+  }
+  .flag-desc{
+    font-size:15px;
+    color:var(--text-dim);
+    line-height:1.5;
+  }
+  .flag-desc b{color:var(--text); font-weight:500;}
 
-  /* ---------- FOOTER ---------- */
-  footer {
-    border-top: 1px solid var(--border-soft);
-    padding: 0;
-  }
-  .footer-ties {
-    height: 14px;
-    background-image: repeating-linear-gradient(90deg, var(--border-soft) 0, var(--border-soft) 2px, transparent 2px, transparent 22px);
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .footer-inner {
-    padding: 44px 0 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  .footer-brand { display: flex; align-items: center; gap: 10px; }
-  .footer-brand .brand-name { font-size: 16px; }
-  .footer-copy { color: var(--text-dim); font-size: 12.5px; }
-  .footer-links { display: flex; gap: 22px; font-size: 13px; color: var(--text-muted); }
-  .footer-links a:hover { color: var(--text); }
-
-  @media (max-width: 760px) {
-    .nav-inner { padding: 14px 20px; }
-    nav ul { gap: 18px; }
-    nav a:not(.nav-cta) { display: none; }
-    .wrap { padding: 0 20px; }
-    .feature-grid { grid-template-columns: 1fr; }
-    .switch-wrap { height: 150px; margin-top: 60px; }
-    .dl-btn { flex: 1 1 100%; justify-content: center; }
-    .footer-inner { flex-direction: column; align-items: flex-start; }
+  @media (max-width:520px){
+    .flag-row{grid-template-columns:1fr; gap:4px;}
   }
 
-  /* ---------- FALLBACKS ----------
-     Every modern browser (Chrome, Firefox, Safari, Edge, and any of
-     their mobile equivalents) supports flexbox gap and CSS Grid, both
-     used throughout this file, so these blocks are inert there. They
-     only activate in something old enough to predate that support
-     (flexbox gap ~2020-21, CSS Grid ~2017), where they restore the
-     same spacing/layout using margin and inline-block instead. */
-  @supports not (gap: 1px) {
-    nav ul li:not(:last-child) { margin-right: 34px; }
-    .footer-links a:not(:last-child) { margin-right: 22px; }
-    .hero-actions > *:not(:last-child) { margin-right: 14px; }
-    .downloads > *:not(:last-child) { margin-right: 12px; }
-  }
-  @supports not (display: grid) {
-    .feature-grid { display: flex; flex-wrap: wrap; }
-    .feature-card { flex: 1 1 260px; border: 1px solid var(--border); margin: 0 -1px -1px 0; }
+  footer{
+    text-align:center;
+    padding:40px 16px 70px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--text-faint);
   }
 </style>
 </head>
-<body>
+<body id="body">
 
-<header>
-  <div class="nav-inner">
-    <a href="/" class="brand">
-      <span class="brand-name"><span class="dawn">Dawn</span>rail</span>
-    </a>
+  <div class="topbar">
+    <div class="mark"><span class="dot"></span>specter</div>
     <nav>
-      <ul>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#download">Download</a></li>
-        
-      </ul>
+      <a href="#install">install</a>
+      <a href="#features">features</a>
     </nav>
   </div>
-</header>
 
-<main>
-  <div class="wrap">
-    <section class="hero">
-      <h1 class="product-intro"><em>Specter</em></h1>
-      <p class="product-subtitle">An SSH client, terminal, and text editor.</p>
-    </section>
-
-    <section class="download" id="download">
-      <div class="downloads">
-        <a class="dl-btn primary" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-windows-installer.exe">
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10 4.4V11.5H3V5.5M11 4.2L21 3V11.5H11V4.2M3 12.5H10V19.6L3 18.5V12.5M11 12.5H21V21L11 19.8V12.5Z"/></svg>
-          <span>Windows<small>Installer (.exe), recommended</small></span>
-        </a>
-        <a class="dl-btn" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-macos-universal.zip">
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          <span>macOS<small>Universal (.zip)</small></span>
-        </a>
-        <a class="dl-btn" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-linux-amd64.tar.gz">
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14.62 8.35c-.32 0-.63.07-.9.19-.53-.63-1.34-.99-2.31-.99-1.53 0-2.9.87-3.6 2.2-.31.03-.63.09-.94.18-1.63.48-2.87 1.83-3.14 3.5-.28 1.71.48 3.4 1.94 4.34.13.31.29.6.48.87.87 1.24 2.29 1.98 3.8 1.98h5.66c1.87 0 3.53-1.22 4.09-3.01.42-1.35.13-2.85-.77-3.94.4-.65.6-1.4.55-2.16-.11-1.7-1.51-3.05-3.22-3.13-.16-.01-.32 0-.48.02-.4-.05-.8-.05-1.16.05z"/></svg>
-          <span>Linux<small>x86_64 (.tar.gz)</small></span>
-        </a>
-      </div>
-    </section>
-
-    <section class="showcase" aria-label="Specter terminal preview">
-      <div class="showcase-frame">
-        <img src="Screenshot 2026-08-27 112030.png" alt="Specter new session screen" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder'); this.parentElement.textContent='Add Specter screenshot';" />
-      </div>
-    </section>
-
-    <section class="products" id="features">
-      <div class="section-head">
-        <div class="section-label">Why Specter</div>
-        <h2>Feature-complete terminal workflows, not just a tabbed SSH window.</h2>
-      </div>
-
-      <p class="feature-intro">Specter focuses on real daily operator workflows: fast session control, secure connectivity, reliable remote file handling, and a terminal surface tuned for long workdays.</p>
-
-      <div class="feature-pills" aria-label="Key feature summary">
-        <span class="feature-pill">Permanent Home Tab</span>
-        <span class="feature-pill">Split Panes</span>
-        <span class="feature-pill">SSH Agent Support</span>
-        <span class="feature-pill">Mosh + Telnet</span>
-        <span class="feature-pill">X11 Forwarding</span>
-        <span class="feature-pill">Session Import</span>
-        <span class="feature-pill">Encrypted Bundles</span>
-        <span class="feature-pill">Continuous Logging</span>
-      </div>
-
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>Terminal workspaces</h3>
-          <p>Keep context alive while moving quickly between sessions.</p>
-          <ul class="feature-list">
-            <li>
-              <h4>Permanent Home tab</h4>
-              <p>A dedicated Home tab stays available as a clean launch point and keeps the app open even after all live sessions close.</p>
-            </li>
-            <li>
-              <h4>Draggable tabs</h4>
-              <p>Reorder sessions instantly by dragging tabs left or right while the Home tab stays pinned and protected.</p>
-            </li>
-            <li>
-              <h4>Split terminal layouts</h4>
-              <p>Run single, split, or four-pane layouts, with each pane hosting SSH, local shell, serial, Telnet, or other session types.</p>
-            </li>
-            <li>
-              <h4>Editable keyboard shortcuts</h4>
-              <p>Open the shortcut reference from the View menu and remap bindings that persist between launches.</p>
-            </li>
-          </ul>
-        </div>
-        <div class="feature-card">
-          <h3>Remote connectivity</h3>
-          <p>Secure protocol coverage for mixed infrastructure environments.</p>
-          <ul class="feature-list">
-            <li>
-              <h4>SSH agent support</h4>
-              <p>Use Windows OpenSSH agent, PuTTY Pageant, Unix/macOS SSH_AUTH_SOCK, or Specter's memory-only signer cache.</p>
-            </li>
-            <li>
-              <h4>Mosh launcher</h4>
-              <p>Start Mosh from the Terminal menu and keep tabs, logging, highlighting, and disconnect handling consistent.</p>
-            </li>
-            <li>
-              <h4>Telnet launcher</h4>
-              <p>Launch Telnet from the Terminal menu or New Session picker with the same terminal surface and lifecycle controls.</p>
-            </li>
-            <li>
-              <h4>X11 forwarding</h4>
-              <p>Opt into X11 forwarding per SSH session with local display proxy support for Linux, XQuartz, VcXsrv, or Xming.</p>
-            </li>
-            <li>
-              <h4>Local SSH port forwarding</h4>
-              <p>Forward local 127.0.0.1 ports through active SSH sessions to hosts reachable from the remote server.</p>
-            </li>
-          </ul>
-        </div>
-        <div class="feature-card">
-          <h3>Session management</h3>
-          <p>Bring existing environments over and keep daily operations reproducible.</p>
-          <ul class="feature-list">
-            <li>
-              <h4>Session file import</h4>
-              <p>Import common INI-style .mxtsessions and .ini files with host, user, port, and key mapping, while skipping passwords.</p>
-            </li>
-            <li>
-              <h4>Session tags</h4>
-              <p>Add comma-separated tags to saved sessions; Specter trims and de-duplicates tags for Quick Connect search.</p>
-            </li>
-            <li>
-              <h4>Persistent command snippets</h4>
-              <p>Store frequent commands or config blocks and insert them into focused terminals through paste safety guards.</p>
-            </li>
-            <li>
-              <h4>Encrypted configuration bundles</h4>
-              <p>Export and import passphrase-protected bundles using PBKDF2-SHA256 and AES-256-GCM for BYO cloud storage.</p>
-            </li>
-            <li>
-              <h4>Continuous session logging</h4>
-              <p>Append raw SSH, local shell, and serial output to per-session log files once a log directory is configured.</p>
-            </li>
-            <li>
-              <h4>Automatic configuration backups</h4>
-              <p>Create periodic local backups and restore settings, sessions, groups, and local shell profiles when needed.</p>
-            </li>
-          </ul>
-        </div>
-        <div class="feature-card">
-          <h3>Remote files and terminal experience</h3>
-          <p>Editing and reading remote systems should feel dependable and responsive.</p>
-          <ul class="feature-list">
-            <li>
-              <h4>Open remote files with system default apps</h4>
-              <p>Open remote PDFs, images, and other files locally via secure temporary copies with preserved timestamps.</p>
-            </li>
-            <li>
-              <h4>Monaco editor workers</h4>
-              <p>TypeScript, JavaScript, JSON, CSS, SCSS, Less, HTML, and core editor workers run off the main UI thread.</p>
-            </li>
-            <li>
-              <h4>SFTP timestamp preservation</h4>
-              <p>Remote downloads preserve modification times, and drag-and-drop uploads carry local mtime when supported.</p>
-            </li>
-            <li>
-              <h4>Cross-platform highlighting</h4>
-              <p>Consistent highlighting across shells and devices, with safe ANSI handling and split-token resilience.</p>
-            </li>
-            <li>
-              <h4>Compact control styling and pane resizing</h4>
-              <p>Unified dark controls with stable focus states plus reliable sidebar and editor divider resizing behavior.</p>
-            </li>
-          </ul>
-        </div>
-        <div class="feature-card">
-          <h3>Security-first defaults</h3>
-          <p>Reduce credential and trust-surface risk by design.</p>
-          <ul class="feature-list">
-            <li>
-              <h4>Real host-key verification</h4>
-              <p>Trust-on-first-use checks with clear host-key-change warnings and fingerprint visibility.</p>
-            </li>
-            <li>
-              <h4>No private key persistence</h4>
-              <p>Private keys and passphrases are never stored inside session profiles.</p>
-            </li>
-            <li>
-              <h4>No known_hosts in cloud bundles</h4>
-              <p>Encrypted configuration bundles intentionally exclude known_hosts and passwords.</p>
-            </li>
-          </ul>
-        </div>
-        <div class="feature-card">
-          <h3>Current scope notes</h3>
-          <p>What is intentionally not integrated yet.</p>
-          <ul class="feature-list">
-            <li>
-              <h4>VNC and RDP</h4>
-              <p>Not yet integrated; both require dedicated graphical client surfaces.</p>
-            </li>
-            <li>
-              <h4>Automatic provider browsing and background sync</h4>
-              <p>Not yet integrated; encrypted BYO-storage bundles are available today.</p>
-            </li>
-            <li>
-              <h4>Macro recording and plugin architecture</h4>
-              <p>Still planned as future productivity features.</p>
-            </li>
-            <li>
-              <h4>Dynamic SOCKS and remote SSH forwarding</h4>
-              <p>Planned as future tunnel manager work.</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
+  <div class="hero">
+    <h1>Specter, a cross-platform<br>terminal emulator.</h1>
   </div>
 
-  <footer>
-    <div class="footer-ties"></div>
-    <div class="wrap footer-inner">
-      <div class="footer-brand">
-        <span class="brand-name"><span class="dawn">Dawn</span>rail</span>
+  <div class="term-wrap">
+    <p class="term-caption">Type below. It's a real one.</p>
+    <div class="term">
+      <div class="term-bar">
+        <span class="term-dot r"></span>
+        <span class="term-dot y"></span>
+        <span class="term-dot g"></span>
+        <span class="term-title">specter - zsh</span>
       </div>
-      <div class="footer-links">
+      <div class="term-body" id="termBody">
+        <div class="input-row" id="inputRow" style="display:none;">
+          <span class="prompt-sym">&gt;</span>
+          <input id="termInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input, type help">
+        </div>
       </div>
-      <div class="footer-copy">© 2026 Dawnrail.</div>
+      <div class="hint-row">try <b>help</b>, <b>theme cyan</b>, <b>features</b>, or <b>install</b></div>
     </div>
-  </footer>
-</main>
+  </div>
+
+  <section class="section" id="install">
+    <div class="section-label">// getting started</div>
+    <h2>Install specter</h2>
+    <div class="os-tabs">
+      <a class="os-tab" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-macos-universal.zip">macOS</a>
+      <a class="os-tab" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-linux-amd64.tar.gz">Linux</a>
+      <a class="os-tab" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-windows-installer.exe">Windows</a>
+    </div>
+    <p class="install-note">.zip, .tar.gz, and .exe from the latest release</p>
+  </section>
+
+  <section class="section" id="features">
+    <div class="section-label">// flags</div>
+    <h2>What it does</h2>
+    <div class="flags">
+      <div class="flag-row">
+        <div class="flag-code">--fast</div>
+        <div class="flag-desc"><b>Built for speed.</b> Rendering and input stay responsive, even under heavy scrollback.</div>
+      </div>
+      <div class="flag-row">
+        <div class="flag-code">--cross-platform</div>
+        <div class="flag-desc"><b>One binary, everywhere.</b> macOS, Linux, and Windows, with the same shortcuts and the same feel.</div>
+      </div>
+      <div class="flag-row">
+        <div class="flag-code">--themeable</div>
+        <div class="flag-desc"><b>Live theming.</b> Switch palettes without restarting your session. You just tried it above.</div>
+      </div>
+      <div class="flag-row">
+        <div class="flag-code">--scriptable</div>
+        <div class="flag-desc"><b>Config as code.</b> Profiles, keybinds, and startup commands, all defined in plain text.</div>
+      </div>
+      <div class="flag-row">
+        <div class="flag-code">--tabs-and-splits</div>
+        <div class="flag-desc"><b>Multiplex without a plugin.</b> Panes and tabs are built in, not bolted on.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>specter v3.0</footer>
+
+<script>
+(function(){
+  const body = document.getElementById('body');
+  const termBody = document.getElementById('termBody');
+  const inputRow = document.getElementById('inputRow');
+  const input = document.getElementById('termInput');
+
+  const themes = {
+    violet: {accent:'#b9a6ff', dim:'#7c6bb0', glow:'rgba(185,166,255,0.35)'},
+    cyan:   {accent:'#6be0ff', dim:'#3f9db8', glow:'rgba(107,224,255,0.30)'},
+    amber:  {accent:'#ffb35c', dim:'#b8853f', glow:'rgba(255,179,92,0.28)'},
+    matrix: {accent:'#7dffa0', dim:'#4fb873', glow:'rgba(125,255,160,0.28)'}
+  };
+
+  function setTheme(name){
+    const t = themes[name];
+    if(!t) return false;
+    document.documentElement.style.setProperty('--accent', t.accent);
+    document.documentElement.style.setProperty('--accent-dim', t.dim);
+    document.documentElement.style.setProperty('--accent-glow', t.glow);
+    return true;
+  }
+
+  function addLine(text, cls){
+    const div = document.createElement('div');
+    div.className = 'line ' + (cls || 'out');
+    div.textContent = text;
+    termBody.insertBefore(div, inputRow);
+  }
+
+  function addRaw(html, cls){
+    const div = document.createElement('div');
+    div.className = 'line ' + (cls || 'out');
+    div.innerHTML = html;
+    termBody.insertBefore(div, inputRow);
+  }
+
+  function scrollToBottom(){
+    termBody.scrollTop = termBody.scrollHeight;
+  }
+
+  const commands = {
+    help(){
+      addLine('available commands:');
+      addLine('  help              show this list');
+      addLine('  about             what specter is');
+      addLine('  features          list feature flags');
+      addLine('  theme <name>      violet, cyan, amber, matrix');
+      addLine('  install           show the install command');
+      addLine('  clear             clear the screen');
+    },
+    about(){
+      addLine('specter is a cross-platform terminal emulator.');
+      addLine('a cross-platform terminal emulator. built to stay out of your way.');
+    },
+    features(){
+      addLine('--fast              built for speed');
+      addLine('--cross-platform    macOS, Linux, Windows');
+      addLine('--themeable         try: theme cyan');
+      addLine('--scriptable        config as code');
+      addLine('--tabs-and-splits   multiplexing, built in');
+    },
+    install(){
+      addLine('macOS    specter-macos-universal.zip');
+      addLine('linux    specter-linux-amd64.tar.gz');
+      addLine('windows  specter-windows-installer.exe');
+      addLine('all builds: github.com/Dawnrail/Dawnrail/releases/latest', 'ghost');
+    },
+    whoami(){
+      addLine('a curious developer, probably.');
+    },
+    ls(){
+      addLine('features.md   themes/   install.sh   changelog.md');
+    },
+    clear(){
+      Array.from(termBody.querySelectorAll('.line')).forEach(el => el.remove());
+    },
+    exit(){
+      addLine("there's no exiting a browser tab. try closing it.", 'ghost');
+    }
+  };
+
+  function runCommand(raw){
+    const trimmed = raw.trim();
+    if(!trimmed) return;
+    addLine('> ' + trimmed, 'cmdline');
+
+    const parts = trimmed.split(/\s+/);
+    const cmd = parts[0].toLowerCase();
+
+    if(cmd === 'theme'){
+      const name = (parts[1] || '').toLowerCase();
+      if(setTheme(name)){
+        addLine('theme set to ' + name + '.', 'ghost');
+      } else {
+        addLine('unknown theme "' + (parts[1] || '') + '". try: violet, cyan, amber, matrix', 'err');
+      }
+      return;
+    }
+
+    if(cmd === 'sudo'){
+      addLine('nice try. specter does not need sudo.', 'err');
+      return;
+    }
+
+    if(commands[cmd]){
+      commands[cmd]();
+    } else {
+      addLine('command not found: ' + cmd + ' (try "help")', 'err');
+    }
+  }
+
+  input.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      const val = input.value;
+      input.value = '';
+      runCommand(val);
+      requestAnimationFrame(scrollToBottom);
+    }
+  });
+
+  termBody.addEventListener('click', () => input.focus());
+
+  // boot sequence
+  const boot = [
+    ['specter v3.0', 'ghost'],
+    ["type help to begin", 'out']
+  ];
+
+  let i = 0;
+  function bootStep(){
+    if(i < boot.length){
+      addLine(boot[i][0], boot[i][1]);
+      i++;
+      setTimeout(bootStep, 90);
+    } else {
+      inputRow.style.display = 'flex';
+      input.focus();
+      scrollToBottom();
+    }
+  }
+  bootStep();
+
+})();
+</script>
 
 </body>
 </html>
