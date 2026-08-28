@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>specter - a terminal, reimagined</title>
+<title>Xpecter - a terminal, reimagined</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -247,14 +247,14 @@
 <body id="body">
 
   <div class="topbar">
-    <div class="mark"><span class="dot"></span>specter</div>
+    <div class="mark"><span class="dot"></span>Xpecter</div>
     <nav>
       <a href="#install">install</a>
     </nav>
   </div>
 
   <div class="hero">
-    <h1>Specter, a cross-platform<br>terminal emulator.</h1>
+    <h1>Xpecter, a cross-platform<br>terminal emulator.</h1>
   </div>
 
   <div class="term-wrap">
@@ -264,7 +264,7 @@
         <span class="term-dot r"></span>
         <span class="term-dot y"></span>
         <span class="term-dot g"></span>
-        <span class="term-title">specter - zsh</span>
+        <span class="term-title">Xpecter - zsh</span>
       </div>
       <div class="term-body" id="termBody">
         <div class="input-row" id="inputRow" style="display:none;">
@@ -278,7 +278,7 @@
 
   <section class="section" id="install">
     <div class="section-label">// getting started</div>
-    <h2>Install specter</h2>
+    <h2>Install Xpecter</h2>
     <div class="os-tabs">
       <a class="os-tab" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-macos-universal.zip">macOS</a>
       <a class="os-tab" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-linux-amd64.tar.gz">Linux</a>
@@ -287,7 +287,7 @@
     <p class="install-note">.zip, .tar.gz, and .exe from the latest release</p>
   </section>
 
-  <footer>specter v3.0</footer>
+  <footer>Xpecter v3.0</footer>
 
 <script>
 (function(){
@@ -360,14 +360,14 @@
     help(){
       addLine('available commands:');
       addLine('  help              show this list');
-      addLine('  about             what specter is');
+      addLine('  about             what Xpecter is');
       addLine('  features          list feature flags');
       addLine('  theme <name>      violet, cyan, amber, matrix');
       addLine('  install           show the install command');
       addLine('  clear             clear the screen');
     },
     about(){
-      addLine('specter is a cross-platform terminal emulator.');
+      addLine('Xpecter is a cross-platform terminal emulator.');
       addLine('a cross-platform terminal emulator. built to stay out of your way.');
     },
     features(){
@@ -433,7 +433,7 @@
     }
 
     if(cmd === 'sudo'){
-      addLine('nice try. specter does not need sudo.', 'err');
+      addLine('nice try. Xpecter does not need sudo.', 'err');
       return;
     }
 
@@ -457,7 +457,7 @@
 
   // boot sequence
   const boot = [
-    ['specter v3.0', 'ghost'],
+    ['Xpecter v3.0', 'ghost'],
     ["type help to begin", 'out']
   ];
 
