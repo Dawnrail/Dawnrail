@@ -235,37 +235,6 @@
     margin:0;
   }
 
-  /* ---------------- flags / features ---------------- */
-  .flags{
-    display:flex;
-    flex-direction:column;
-    gap:0;
-    border-top:1px solid var(--glass-border);
-  }
-  .flag-row{
-    display:grid;
-    grid-template-columns:140px 1fr;
-    gap:16px;
-    padding:16px 0;
-    border-bottom:1px solid var(--glass-border);
-  }
-  .flag-code{
-    font-family:var(--mono);
-    font-size:14px;
-    color:var(--accent);
-    white-space:nowrap;
-  }
-  .flag-desc{
-    font-size:15px;
-    color:var(--text-dim);
-    line-height:1.5;
-  }
-  .flag-desc b{color:var(--text); font-weight:500;}
-
-  @media (max-width:520px){
-    .flag-row{grid-template-columns:1fr; gap:4px;}
-  }
-
   footer{
     text-align:center;
     padding:40px 16px 70px;
@@ -281,7 +250,6 @@
     <div class="mark"><span class="dot"></span>specter</div>
     <nav>
       <a href="#install">install</a>
-      <a href="#features">features</a>
     </nav>
   </div>
 
@@ -317,33 +285,6 @@
       <a class="os-tab" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-windows-installer.exe">Windows</a>
     </div>
     <p class="install-note">.zip, .tar.gz, and .exe from the latest release</p>
-  </section>
-
-  <section class="section" id="features">
-    <div class="section-label">// flags</div>
-    <h2>What it does</h2>
-    <div class="flags">
-      <div class="flag-row">
-        <div class="flag-code">--fast</div>
-        <div class="flag-desc"><b>Built for speed.</b> Rendering and input stay responsive, even under heavy scrollback.</div>
-      </div>
-      <div class="flag-row">
-        <div class="flag-code">--cross-platform</div>
-        <div class="flag-desc"><b>One binary, everywhere.</b> macOS, Linux, and Windows, with the same shortcuts and the same feel.</div>
-      </div>
-      <div class="flag-row">
-        <div class="flag-code">--themeable</div>
-        <div class="flag-desc"><b>Live theming.</b> Switch palettes without restarting your session. You just tried it above.</div>
-      </div>
-      <div class="flag-row">
-        <div class="flag-code">--scriptable</div>
-        <div class="flag-desc"><b>Config as code.</b> Profiles, keybinds, and startup commands, all defined in plain text.</div>
-      </div>
-      <div class="flag-row">
-        <div class="flag-code">--tabs-and-splits</div>
-        <div class="flag-desc"><b>Multiplex without a plugin.</b> Panes and tabs are built in, not bolted on.</div>
-      </div>
-    </div>
   </section>
 
   <footer>specter v3.0</footer>
