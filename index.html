@@ -389,6 +389,32 @@
     termBody.scrollTop = termBody.scrollHeight;
   }
 
+  // downloads, same targets as the buttons in the install section
+  const releaseBase = 'https://github.com/Dawnrail/Dawnrail/releases/latest/download/';
+  const builds = {
+    windows: {file:'specter-windows-installer.exe', label:'windows'},
+    macos:   {file:'specter-macos-universal.zip',   label:'macOS'},
+    linux:   {file:'specter-linux-amd64.tar.gz',    label:'linux'}
+  };
+  const buildAliases = {
+    windows:'windows', win:'windows', win32:'windows', exe:'windows',
+    macos:'macos', mac:'macos', osx:'macos', darwin:'macos',
+    linux:'linux', gnu:'linux'
+  };
+
+  function startDownload(key){
+    const build = builds[key];
+    if(!build) return false;
+    addLine('fetching ' + build.file + ' ...', 'ghost');
+    const a = document.createElement('a');
+    a.href = releaseBase + build.file;
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    return true;
+  }
+
   const commands = {
     help(){
       addLine('available commands:');
@@ -414,7 +440,7 @@
       addLine('macOS    specter-macos-universal.zip');
       addLine('linux    specter-linux-amd64.tar.gz');
       addLine('windows  specter-windows-installer.exe');
-      addLine('all builds: github.com/Dawnrail/Dawnrail/releases/latest', 'ghost');
+      addLine('type macos, linux, or windows to download that build.', 'ghost');
     },
     whoami(){
       addLine('a curious developer, probably.');
@@ -445,6 +471,23 @@
       } else {
         addLine('unknown theme "' + (parts[1] || '') + '". try: violet, cyan, amber, matrix', 'err');
       }
+      return;
+    }
+
+    if(cmd === 'install' || cmd === 'download' || cmd === 'get'){
+      const arg = (parts[1] || '').toLowerCase();
+      if(!arg){
+        commands.install();
+      } else if(buildAliases[arg]){
+        startDownload(buildAliases[arg]);
+      } else {
+        addLine('no build called "' + parts[1] + '". try: windows, macos, linux', 'err');
+      }
+      return;
+    }
+
+    if(buildAliases[cmd]){
+      startDownload(buildAliases[cmd]);
       return;
     }
 
