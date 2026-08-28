@@ -280,9 +280,9 @@
     <div class="section-label">// getting started</div>
     <h2>Install Xpecter</h2>
     <div class="os-tabs">
-      <a class="os-tab" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-macos-universal.zip">macOS</a>
-      <a class="os-tab" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-linux-amd64.tar.gz">Linux</a>
-      <a class="os-tab" href="https://github.com/Dawnrail/Dawnrail/releases/latest/download/specter-windows-installer.exe">Windows</a>
+      <a class="os-tab" href="https://github.com/angjones3005/Xpecter/releases/latest/download/xpecter-macos-universal.zip">macOS</a>
+      <a class="os-tab" href="https://github.com/angjones3005/Xpecter/releases/latest/download/xpecter-linux-amd64.tar.gz">Linux</a>
+      <a class="os-tab" href="https://github.com/angjones3005/Xpecter/releases/latest/download/xpecter-windows-installer.exe">Windows</a>
     </div>
     <p class="install-note">.zip, .tar.gz, and .exe from the latest release</p>
   </section>
@@ -331,11 +331,11 @@
   }
 
   // downloads, same targets as the buttons in the install section
-  const releaseBase = 'https://github.com/Dawnrail/Dawnrail/releases/latest/download/';
+  const releaseBase = 'https://github.com/angjones3005/Xpecter/releases/latest/download/';
   const builds = {
-    windows: {file:'specter-windows-installer.exe', label:'windows'},
-    macos:   {file:'specter-macos-universal.zip',   label:'macOS'},
-    linux:   {file:'specter-linux-amd64.tar.gz',    label:'linux'}
+    windows: {file:'xpecter-windows-installer.exe', label:'windows'},
+    macos:   {file:'xpecter-macos-universal.zip',   label:'macOS'},
+    linux:   {file:'xpecter-linux-amd64.tar.gz',    label:'linux'}
   };
   const buildAliases = {
     windows:'windows', win:'windows', win32:'windows', exe:'windows',
@@ -378,9 +378,9 @@
       addLine('--tabs-and-splits   multiplexing, built in');
     },
     install(){
-      addLine('macOS    specter-macos-universal.zip');
-      addLine('linux    specter-linux-amd64.tar.gz');
-      addLine('windows  specter-windows-installer.exe');
+      addLine('macOS    xpecter-macos-universal.zip');
+      addLine('linux    xpecter-linux-amd64.tar.gz');
+      addLine('windows  xpecter-windows-installer.exe');
       addLine('type macos, linux, or windows to download that build.', 'ghost');
     },
     whoami(){
