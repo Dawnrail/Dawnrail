@@ -56,14 +56,8 @@
   .topbar .mark{
     display:flex;
     align-items:center;
-    gap:8px;
     color:var(--text);
     font-weight:500;
-  }
-  .mark .dot{
-    width:8px; height:8px; border-radius:50%;
-    background:var(--accent);
-    box-shadow:0 0 8px 2px var(--accent-glow);
   }
   .topbar nav{display:flex; gap:22px;}
   .topbar nav a{text-decoration:none; opacity:0.8;}
@@ -115,27 +109,6 @@
     overflow:hidden;
     text-align:left;
   }
-  .term-bar{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:12px 14px;
-    background:var(--glass-strong);
-    border-bottom:1px solid var(--glass-border);
-  }
-  .term-dot{width:10px; height:10px; border-radius:50%; opacity:0.7;}
-  .term-dot.r{background:#ff6159;}
-  .term-dot.y{background:#ffbd2e;}
-  .term-dot.g{background:#28c840;}
-  .term-title{
-    flex:1;
-    text-align:center;
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--text-faint);
-    letter-spacing:0.5px;
-    margin-right:44px;
-  }
   .term-body{
     padding:18px 18px 14px;
     font-family:var(--mono);
@@ -177,14 +150,6 @@
     border-top:1px solid var(--glass-border);
   }
   .hint-row b{color:var(--text-dim); font-weight:500;}
-
-  @keyframes pulseGlow{
-    0%,100%{opacity:0.35;}
-    50%{opacity:0.6;}
-  }
-  @media (prefers-reduced-motion:no-preference){
-    .mark .dot{animation:pulseGlow 2.4s ease-in-out infinite;}
-  }
 
   /* ---------------- install ---------------- */
   .section{
@@ -234,6 +199,51 @@
     color:var(--text-faint);
     margin:0;
   }
+  .terminal-installs{
+    display:grid;
+    gap:14px;
+    margin-top:22px;
+  }
+  .terminal-install-label{
+    display:block;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-dim);
+    margin-bottom:8px;
+  }
+  .terminal-install-row{
+    display:flex;
+    align-items:stretch;
+    border:1px solid var(--glass-border);
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--glass);
+  }
+  .terminal-install code{
+    flex:1;
+    min-width:0;
+    padding:10px 12px;
+    overflow-x:auto;
+    white-space:nowrap;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text);
+  }
+  .copy-install{
+    flex:none;
+    border:0;
+    border-left:1px solid var(--glass-border);
+    padding:0 13px;
+    background:var(--glass-strong);
+    color:var(--text-dim);
+    cursor:pointer;
+    font-family:var(--mono);
+    font-size:11.5px;
+  }
+  .copy-install:hover, .copy-install:focus-visible{
+    background:var(--accent-dim);
+    color:#0a0912;
+  }
 
   footer{
     text-align:center;
@@ -247,7 +257,7 @@
 <body id="body">
 
   <div class="topbar">
-    <div class="mark"><span class="dot"></span>Xpecter</div>
+    <div class="mark">Xpecter</div>
     <nav>
       <a href="#install">install</a>
     </nav>
@@ -260,12 +270,6 @@
   <div class="term-wrap">
     <p class="term-caption">Type below. It's a real one.</p>
     <div class="term">
-      <div class="term-bar">
-        <span class="term-dot r"></span>
-        <span class="term-dot y"></span>
-        <span class="term-dot g"></span>
-        <span class="term-title">Xpecter - zsh</span>
-      </div>
       <div class="term-body" id="termBody">
         <div class="input-row" id="inputRow" style="display:none;">
           <span class="prompt-sym">&gt;</span>
@@ -285,6 +289,29 @@
       <a class="os-tab" href="https://github.com/angjones3005/Xpecter/releases/latest/download/xpecter-windows-installer.exe">Windows</a>
     </div>
     <p class="install-note">.zip, .tar.gz, and .exe from the latest release</p>
+    <div class="terminal-installs">
+      <div class="terminal-install">
+        <span class="terminal-install-label">macOS Terminal</span>
+        <div class="terminal-install-row">
+          <code id="macosCommand">curl -fsSL https://raw.githubusercontent.com/angjones3005/Xpecter/main/install-macos.sh | sh</code>
+          <button class="copy-install" type="button" data-copy-target="macosCommand" aria-label="Copy macOS install command" title="Copy macOS install command">copy</button>
+        </div>
+      </div>
+      <div class="terminal-install">
+        <span class="terminal-install-label">Linux Terminal</span>
+        <div class="terminal-install-row">
+          <code id="linuxCommand">curl -fsSL https://raw.githubusercontent.com/angjones3005/Xpecter/main/install-linux.sh | sh</code>
+          <button class="copy-install" type="button" data-copy-target="linuxCommand" aria-label="Copy Linux install command" title="Copy Linux install command">copy</button>
+        </div>
+      </div>
+      <div class="terminal-install">
+      <span class="terminal-install-label">Windows PowerShell</span>
+      <div class="terminal-install-row">
+        <code id="powershellCommand">irm https://raw.githubusercontent.com/angjones3005/Xpecter/main/install.ps1 | iex</code>
+        <button class="copy-install" type="button" data-copy-target="powershellCommand" aria-label="Copy PowerShell install command" title="Copy PowerShell install command">copy</button>
+      </div>
+      </div>
+    </div>
   </section>
 
   <footer>Xpecter v3.0</footer>
@@ -295,6 +322,18 @@
   const termBody = document.getElementById('termBody');
   const inputRow = document.getElementById('inputRow');
   const input = document.getElementById('termInput');
+  document.querySelectorAll('.copy-install').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const command = document.getElementById(button.dataset.copyTarget);
+      try {
+        await navigator.clipboard.writeText(command.textContent);
+        button.textContent = 'copied';
+        setTimeout(() => { button.textContent = 'copy'; }, 1600);
+      } catch {
+        button.textContent = 'select text';
+      }
+    });
+  });
 
   const themes = {
     violet: {accent:'#b9a6ff', dim:'#7c6bb0', glow:'rgba(185,166,255,0.35)'},
