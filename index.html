@@ -7,38 +7,35 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  /* colors and fonts match Documentation.html; keep the two in sync */
   :root{
-    --bg-1:#0a0912;
-    --bg-2:#050409;
-    --glass:rgba(255,255,255,0.055);
-    --glass-strong:rgba(255,255,255,0.09);
-    --glass-border:rgba(255,255,255,0.14);
-    --text:#e9e6f5;
-    --text-dim:#9089ab;
-    --text-faint:#5b5473;
-    --accent:#b9a6ff;
-    --accent-dim:#7c6bb0;
-    --accent-glow:rgba(185,166,255,0.35);
-    --mono:'JetBrains Mono', monospace;
-    --sans:'Space Grotesk', sans-serif;
+    --ink:#1d2924;
+    --muted:#68766f;
+    --faint:#93a097;
+    --paper:#f5f7f2;
+    --panel:#fff;
+    --line:#dfe6df;
+    --accent:#087f5b;
+    --accent-soft:#dff3ea;
+    --highlight:#e66a35;
+    --danger:#b42318;
+    --shadow:0 18px 45px rgba(34,52,43,.08);
+    --sans:'Manrope', sans-serif;
+    --mono:'DM Mono', monospace;
     --radius:10px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0; padding:0;}
   body{
-    background:
-      radial-gradient(ellipse 60% 40% at 50% 0%, var(--accent-glow) 0%, transparent 60%),
-      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(90,70,150,0.15) 0%, transparent 60%),
-      linear-gradient(180deg, var(--bg-1), var(--bg-2));
-    color:var(--text);
+    background:var(--paper);
+    color:var(--ink);
     font-family:var(--sans);
     min-height:100vh;
-    transition:background 0.6s ease;
   }
   a{color:inherit;}
-  ::selection{background:var(--accent); color:#0a0912;}
+  ::selection{background:var(--accent); color:#fff;}
 
   /* ---------------- nav ---------------- */
   .topbar{
@@ -51,14 +48,20 @@
     font-family:var(--mono);
     font-size:13px;
     letter-spacing:0.5px;
-    color:var(--text-dim);
+    color:var(--muted);
   }
   .topbar .mark{
     display:flex;
     align-items:center;
-    color:var(--text);
-    font-weight:500;
+    gap:11px;
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:-0.04em;
+    text-decoration:none;
   }
+  .topbar .mark img{flex:none;}
   .topbar nav{display:flex; gap:22px;}
   .topbar nav a{text-decoration:none; opacity:0.8;}
   .topbar nav a:hover{opacity:1; color:var(--accent);}
@@ -72,16 +75,16 @@
   }
   .hero h1{
     font-family:var(--mono);
-    font-weight:700;
+    font-weight:500;
     font-size:clamp(28px, 5vw, 46px);
     line-height:1.25;
     margin:0 0 14px;
     letter-spacing:-0.5px;
   }
-  .hero h1 .glow{color:var(--accent); text-shadow:0 0 24px var(--accent-glow);}
+  .hero h1 .glow{color:var(--accent);}
   .hero p.sub{
     font-size:17px;
-    color:var(--text-dim);
+    color:var(--muted);
     max-width:520px;
     margin:0 auto 40px;
     line-height:1.5;
@@ -96,16 +99,14 @@
   .term-caption{
     text-align:center;
     font-size:15px;
-    color:var(--text-dim);
+    color:var(--muted);
     margin:0 0 22px;
   }
   .term{
-    background:var(--glass);
-    border:1px solid var(--glass-border);
+    background:var(--panel);
+    border:1px solid var(--line);
     border-radius:var(--radius);
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
-    box-shadow:0 40px 80px -30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
+    box-shadow:var(--shadow);
     overflow:hidden;
     text-align:left;
   }
@@ -119,15 +120,15 @@
     cursor:text;
   }
   .term-body::-webkit-scrollbar{width:8px;}
-  .term-body::-webkit-scrollbar-thumb{background:var(--glass-border); border-radius:4px;}
+  .term-body::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
 
   .line{white-space:pre-wrap; word-break:break-word;}
-  .line.out{color:var(--text-dim);}
-  .line.err{color:#ff8b8b;}
+  .line.out{color:var(--muted);}
+  .line.err{color:var(--danger);}
   .line.ghost{color:var(--accent);}
-  .line.cmdline{color:var(--text);}
+  .line.cmdline{color:var(--ink);}
   .prompt-sym{color:var(--accent); margin-right:8px;}
-  .prompt-user{color:var(--text-faint);}
+  .prompt-user{color:var(--faint);}
 
   .input-row{display:flex; align-items:center;}
   .input-row .prompt-sym{flex:none;}
@@ -136,7 +137,7 @@
     background:transparent;
     border:none;
     outline:none;
-    color:var(--text);
+    color:var(--ink);
     font-family:var(--mono);
     font-size:14.5px;
     caret-color:var(--accent);
@@ -146,10 +147,10 @@
     padding:9px 18px 14px;
     font-family:var(--mono);
     font-size:11.5px;
-    color:var(--text-faint);
-    border-top:1px solid var(--glass-border);
+    color:var(--faint);
+    border-top:1px solid var(--line);
   }
-  .hint-row b{color:var(--text-dim); font-weight:500;}
+  .hint-row b{color:var(--muted); font-weight:500;}
 
   /* ---------------- install ---------------- */
   .section{
@@ -160,13 +161,14 @@
   .section-label{
     font-family:var(--mono);
     font-size:12px;
-    color:var(--accent-dim);
+    color:var(--highlight);
     letter-spacing:2px;
     text-transform:uppercase;
     margin-bottom:10px;
   }
   .section h2{
     font-family:var(--mono);
+    font-weight:500;
     font-size:24px;
     margin:0 0 26px;
   }
@@ -182,21 +184,21 @@
     font-size:12.5px;
     padding:7px 14px;
     border-radius:6px;
-    border:1px solid var(--glass-border);
-    background:transparent;
-    color:var(--text-dim);
+    border:1px solid var(--line);
+    background:var(--panel);
+    color:var(--muted);
     cursor:pointer;
     text-decoration:none;
   }
   .os-tab:hover, .os-tab:focus-visible{
-    background:var(--glass-strong);
+    background:var(--accent-soft);
     color:var(--accent);
-    border-color:var(--accent-dim);
+    border-color:var(--accent);
   }
   .install-note{
     font-family:var(--mono);
     font-size:11.5px;
-    color:var(--text-faint);
+    color:var(--faint);
     margin:0;
   }
   .terminal-installs{
@@ -208,16 +210,16 @@
     display:block;
     font-family:var(--mono);
     font-size:11.5px;
-    color:var(--text-dim);
+    color:var(--muted);
     margin-bottom:8px;
   }
   .terminal-install-row{
     display:flex;
     align-items:stretch;
-    border:1px solid var(--glass-border);
+    border:1px solid var(--line);
     border-radius:6px;
     overflow:hidden;
-    background:var(--glass);
+    background:var(--panel);
   }
   .terminal-install code{
     flex:1;
@@ -227,22 +229,22 @@
     white-space:nowrap;
     font-family:var(--mono);
     font-size:11.5px;
-    color:var(--text);
+    color:var(--ink);
   }
   .copy-install{
     flex:none;
     border:0;
-    border-left:1px solid var(--glass-border);
+    border-left:1px solid var(--line);
     padding:0 13px;
-    background:var(--glass-strong);
-    color:var(--text-dim);
+    background:var(--paper);
+    color:var(--muted);
     cursor:pointer;
     font-family:var(--mono);
     font-size:11.5px;
   }
   .copy-install:hover, .copy-install:focus-visible{
-    background:var(--accent-dim);
-    color:#0a0912;
+    background:var(--accent);
+    color:#fff;
   }
 
   footer{
@@ -250,16 +252,17 @@
     padding:40px 16px 70px;
     font-family:var(--mono);
     font-size:12.5px;
-    color:var(--text-faint);
+    color:var(--faint);
   }
 </style>
 </head>
 <body id="body">
 
   <div class="topbar">
-    <div class="mark">Xpecter</div>
+    <a class="mark" href="index.html"><img src="favicon.svg" alt="" width="32" height="32"><span>Xpecter</span></a>
     <nav>
       <a href="#install">install</a>
+      <a href="Documentation.html">docs</a>
     </nav>
   </div>
 
@@ -314,7 +317,7 @@
     </div>
   </section>
 
-  <footer>Xpecter v3.0</footer>
+  <footer>Xpecter</footer>
 
 <script>
 (function(){
@@ -336,18 +339,17 @@
   });
 
   const themes = {
-    violet: {accent:'#b9a6ff', dim:'#7c6bb0', glow:'rgba(185,166,255,0.35)'},
-    cyan:   {accent:'#6be0ff', dim:'#3f9db8', glow:'rgba(107,224,255,0.30)'},
-    amber:  {accent:'#ffb35c', dim:'#b8853f', glow:'rgba(255,179,92,0.28)'},
-    matrix: {accent:'#7dffa0', dim:'#4fb873', glow:'rgba(125,255,160,0.28)'}
+    green:  {accent:'#087f5b', soft:'#dff3ea'},
+    cyan:   {accent:'#0e7490', soft:'#dff2f7'},
+    amber:  {accent:'#b45309', soft:'#fbeedb'},
+    violet: {accent:'#6b55c9', soft:'#ece8fb'}
   };
 
   function setTheme(name){
     const t = themes[name];
     if(!t) return false;
     document.documentElement.style.setProperty('--accent', t.accent);
-    document.documentElement.style.setProperty('--accent-dim', t.dim);
-    document.documentElement.style.setProperty('--accent-glow', t.glow);
+    document.documentElement.style.setProperty('--accent-soft', t.soft);
     return true;
   }
 
@@ -401,8 +403,9 @@
       addLine('  help              show this list');
       addLine('  about             what Xpecter is');
       addLine('  features          list feature flags');
-      addLine('  theme <name>      violet, cyan, amber, matrix');
+      addLine('  theme <name>      green, cyan, amber, violet');
       addLine('  install           show the install command');
+      addLine('  docs              open the documentation');
       addLine('  clear             clear the screen');
     },
     about(){
@@ -421,6 +424,10 @@
       addLine('linux    xpecter-linux-amd64.tar.gz');
       addLine('windows  xpecter-windows-installer.exe');
       addLine('type macos, linux, or windows to download that build.', 'ghost');
+    },
+    docs(){
+      addLine('opening the documentation ...', 'ghost');
+      window.location.href = 'Documentation.html';
     },
     whoami(){
       addLine('a curious developer, probably.');
@@ -449,7 +456,7 @@
       if(setTheme(name)){
         addLine('theme set to ' + name + '.', 'ghost');
       } else {
-        addLine('unknown theme "' + (parts[1] || '') + '". try: violet, cyan, amber, matrix', 'err');
+        addLine('unknown theme "' + (parts[1] || '') + '". try: green, cyan, amber, violet', 'err');
       }
       return;
     }
@@ -496,7 +503,7 @@
 
   // boot sequence
   const boot = [
-    ['Xpecter v3.0', 'ghost'],
+    ['Xpecter', 'ghost'],
     ["type help to begin", 'out']
   ];
 
